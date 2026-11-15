@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OpenBorder Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F5F4;--surface:#FFFFFF;--surface-2:#F7FAF9;--ink:#0C2A31;--muted:#587075;--line:#DAE3E2;
+  --teal:#08333D;--teal-ink:#FFFFFF;--chip:#E6EEED;--chip-on:#08333D;--chip-on-ink:#FFFFFF;
+  --primary-bg:#08333D;--primary-ink:#FFFFFF;--lime:#BBED4F;--green:#61C35D;
+  --ok:#2E7D32;--ok-bg:#E9F6E5;--warn:#8A5A00;--warn-bg:#FFF4DC;--info-bg:#E8F1F3;--later:#5B4B8A;--later-bg:#EFEBFA;
+  --focus:#61C35D;--shadow:0 1px 2px rgba(8,51,61,.06),0 4px 16px rgba(8,51,61,.06);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#081A1F;--surface:#0F252B;--surface-2:#132D34;--ink:#E5EEEE;--muted:#93ABAF;--line:#21404A;
+  --teal:#061418;--teal-ink:#E5EEEE;--chip:#183740;--chip-on:#BBED4F;--chip-on-ink:#08333D;
+  --primary-bg:#BBED4F;--primary-ink:#08333D;
+  --ok:#8FD98A;--ok-bg:#163A26;--warn:#F2C46B;--warn-bg:#3A2E12;--info-bg:#15333B;--later:#C3B5F2;--later-bg:#2A2342;
+  --shadow:none;color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#081A1F;--surface:#0F252B;--surface-2:#132D34;--ink:#E5EEEE;--muted:#93ABAF;--line:#21404A;
+  --teal:#061418;--teal-ink:#E5EEEE;--chip:#183740;--chip-on:#BBED4F;--chip-on-ink:#08333D;
+  --primary-bg:#BBED4F;--primary-ink:#08333D;
+  --ok:#8FD98A;--ok-bg:#163A26;--warn:#F2C46B;--warn-bg:#3A2E12;--info-bg:#15333B;--later:#C3B5F2;--later-bg:#2A2342;
+  --shadow:none;color-scheme:dark;
+}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--teal)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--teal);color:var(--teal-ink);display:flex;align-items:center;gap:16px;padding:12px 24px;flex-wrap:wrap}
+.brand{font-weight:700;letter-spacing:-.01em;font-size:17px;display:flex;align-items:center;gap:10px}
+.brand i{display:inline-block;width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,var(--lime),var(--green))}
+.brand span{font-weight:400;opacity:.7}
+.switch{display:flex;background:rgba(255,255,255,.1);border-radius:10px;padding:3px;margin-left:8px}
+.switch button{border:0;background:transparent;color:var(--teal-ink);padding:7px 14px;border-radius:8px;cursor:pointer;font-weight:500;font-size:14px;opacity:.75}
+.switch button[aria-pressed="true"]{background:#fff;color:#08333D;opacity:1}
+.top .spacer{flex:1}
+.top .meta{font-size:13px;opacity:.75}
+.top .ghost{border:1px solid rgba(255,255,255,.3);background:transparent;color:var(--teal-ink);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px}
+
+.wrap{display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;max-width:1180px;margin:0 auto;padding:28px 24px 80px}
+@media (max-width:860px){.wrap{grid-template-columns:1fr;padding:18px 14px 80px;gap:16px}}
+
+.side{position:sticky;top:76px;align-self:start;display:flex;flex-direction:column;gap:14px}
+@media (max-width:860px){.side{position:static}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.prog{padding:18px}
+.prog h2{font-size:14px;margin:0 0 2px;font-weight:600}
+.prog .sub{font-size:13px;color:var(--muted);margin:0 0 12px}
+.bar{height:6px;background:var(--chip);border-radius:6px;overflow:hidden;margin-bottom:14px}
+.bar b{display:block;height:100%;background:linear-gradient(90deg,var(--lime),var(--green));border-radius:6px;transition:width .3s}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.steps button{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:0;background:transparent;padding:8px 8px;border-radius:9px;cursor:pointer;color:var(--ink)}
+.steps button:hover{background:var(--surface-2)}
+.steps button[aria-current="step"]{background:var(--info-bg);font-weight:600}
+.dot{flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px;color:var(--muted);font-weight:600}
+.dot.done{background:var(--green);border-color:var(--green);color:#08333D}
+.steps .cnt{margin-left:auto;font-size:12px;color:var(--muted);font-weight:400}
+@media (max-width:860px){.steps{flex-direction:row;overflow-x:auto;gap:4px}.steps button{white-space:nowrap}.steps .cnt{display:none}}
+
+.legend{padding:14px 18px;font-size:13px;color:var(--muted)}
+.legend h3{font-size:13px;margin:0 0 8px;color:var(--ink);font-weight:600}
+.legend div{display:flex;align-items:center;gap:8px;margin:5px 0}
+.team{padding:16px 18px}
+.team h3{font-size:13px;margin:0 0 10px;font-weight:600}
+.team .row{display:flex;justify-content:space-between;font-size:13px;margin:6px 0;color:var(--muted)}
+.team .row strong{color:var(--ink);font-weight:600}
+.minibar{height:4px;background:var(--chip);border-radius:4px;overflow:hidden;margin-top:3px}
+.minibar b{display:block;height:100%;background:var(--green)}
+
+.main{min-width:0}
+.panel{padding:28px 32px}
+@media (max-width:600px){.panel{padding:20px 18px}}
+.kicker{font-size:13px;color:var(--muted);margin:0 0 4px}
+h1{font-size:26px;letter-spacing:-.02em;line-height:1.2;margin:0 0 8px;font-weight:700}
+.lede{color:var(--muted);margin:0 0 24px;max-width:62ch}
+.section-title{font-size:15px;font-weight:600;margin:26px 0 12px;padding-top:20px;border-top:1px solid var(--line)}
+.section-title:first-of-type{border-top:0;padding-top:0;margin-top:0}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+.f{display:flex;flex-direction:column;gap:6px}
+.f.full{grid-column:1/-1}
+.f label{font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.f .opt{color:var(--muted);font-weight:400}
+.f input,.f select,.f textarea{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:9px 11px;min-height:40px;width:100%}
+.f textarea{min-height:76px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--green);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 25%,transparent)}
+.f .hint{font-size:12px;color:var(--muted)}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+
+.tag{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px;line-height:18px}
+.tag.tam{background:var(--info-bg);color:var(--ink)}
+.tag.ops{background:var(--chip);color:var(--ink)}
+.tag.auto{background:var(--ok-bg);color:var(--ok)}
+.tag.later{background:var(--later-bg);color:var(--later)}
+.tag.manual{background:var(--warn-bg);color:var(--warn)}
+.tag.hold{background:var(--warn-bg);color:var(--warn)}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:14px}
+.chips button[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+
+.note{display:flex;gap:10px;padding:12px 14px;border-radius:10px;background:var(--info-bg);font-size:14px;margin:14px 0}
+.note.warn{background:var(--warn-bg)}
+.note.ok{background:var(--ok-bg)}
+.note.later{background:var(--later-bg)}
+.note b{font-weight:600}
+.note .ic{flex:none}
+
+.box{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--surface-2);margin:14px 0}
+.box h4{margin:0 0 6px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.box p{margin:0 0 10px;color:var(--muted);font-size:14px}
+
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer;background:var(--primary-bg);color:var(--primary-ink)}
+.btn.sec{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.btn.launch{background:linear-gradient(90deg,var(--lime),var(--green));color:#08333D}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:7px 12px;font-size:13px}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line);flex-wrap:wrap}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+
+.pipeline{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:6px}
+.pipeline li{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.pipeline .s{flex:none;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);margin-top:2px}
+.pipeline .s.done{background:var(--green);border-color:var(--green)}
+.pipeline .s.run{border-color:var(--green);border-top-color:transparent;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.pipeline .s.run{animation:none}}
+
+.tasks{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.tasks div{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:14px}
+.tasks div:last-child{border-bottom:0}
+.tasks small{display:block;color:var(--muted);font-size:12px}
+
+pre{background:var(--teal);color:#DDEBEA;border-radius:12px;padding:16px;font-size:12px;line-height:1.55;overflow:auto;max-height:420px;margin:0}
+.review dl{display:grid;grid-template-columns:200px 1fr;gap:6px 14px;margin:0;font-size:14px}
+@media (max-width:600px){.review dl{grid-template-columns:1fr}}
+.review dt{color:var(--muted)}
+.review dd{margin:0;word-break:break-word}
+.missing{color:var(--warn)}
+
+.gate{text-align:center;padding:56px 32px}
+.gate .big{font-size:44px}
+.hero-done{padding:36px 32px;border-radius:14px;background:var(--teal);color:#E5EEEE}
+.hero-done h1{color:#fff}
+.hero-done p{color:#BFD2D3;max-width:60ch}
+
+.modal-bg{position:fixed;inset:0;background:rgba(4,20,24,.55);display:grid;place-items:center;padding:16px;z-index:20}
+.modal{width:min(480px,100%);padding:22px}
+.modal h3{margin:0 0 14px;font-size:17px}
+.loc-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.loc{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:14px}
+.slider{display:flex;align-items:center;gap:12px}
+.slider input{flex:1}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--teal);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;z-index:30}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+:root{--link:#3B5BDB;--tog-on:#3B5BDB;--ddp-bg:#ECE8FB;--ddp:#5B3FC4;--ti-bg:#E3F4E8;--ti:#2B7A45;--mk-on:#EEF1FD}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--link:#8EA6F5;--tog-on:#5C7CF0;--ddp-bg:#2D2550;--ddp:#C2B4F7;--ti-bg:#173826;--ti:#8FD9A6;--mk-on:#1B2A4A}}
+:root[data-theme="dark"]{--link:#8EA6F5;--tog-on:#5C7CF0;--ddp-bg:#2D2550;--ddp:#C2B4F7;--ti-bg:#173826;--ti:#8FD9A6;--mk-on:#1B2A4A}
+.mk-search{position:relative;margin:4px 0 8px}
+.mk-search input{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 14px 12px 42px;background:var(--surface);min-height:46px}
+.mk-search input:focus{outline:none;border-color:var(--tog-on);box-shadow:0 0 0 3px color-mix(in srgb,var(--tog-on) 20%,transparent)}
+.mk-search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.region{border-top:1px solid var(--line);padding:18px 0 8px}
+.region-h{display:flex;align-items:baseline;gap:12px;margin:0 0 12px;flex-wrap:wrap}
+.region-h strong{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.region-h span{font-size:13px;color:var(--muted)}
+.region-h button{margin-left:auto;border:0;background:none;color:var(--link);cursor:pointer;font-weight:500;padding:0}
+.mk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:600px){.mk-grid{grid-template-columns:1fr}}
+.mk{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:12px 16px;border-radius:12px;border:0;background:transparent;cursor:pointer;color:var(--ink)}
+.mk:hover{background:var(--surface-2)}
+.mk[aria-pressed="true"]{background:var(--mk-on)}
+.mk .flag{font-size:22px;line-height:1;flex:none}
+.mk .nm{display:block;font-size:16px;font-weight:500}
+.mk .meta{display:flex;gap:6px;align-items:center;margin-top:3px;font-size:13px;color:var(--muted)}
+.pl{font-size:11px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:5px}
+.pl.ddp{background:var(--ddp-bg);color:var(--ddp)}
+.pl.ti{background:var(--ti-bg);color:var(--ti)}
+.mk .sw{margin-left:auto;flex:none;position:relative;width:46px;height:26px;border-radius:999px;background:var(--chip);transition:background .15s}
+.mk .sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:left .15s}
+.mk[aria-pressed="true"] .sw{background:var(--tog-on)}
+.mk[aria-pressed="true"] .sw::after{left:23px}
+@media (prefers-reduced-motion:reduce){.mk .sw,.mk .sw::after{transition:none}}
+.mk[hidden],.region[hidden],.mk-empty[hidden]{display:none}
+.mk-empty{color:var(--muted);font-size:14px;padding:14px 0}
+</style>
+<style>
+.st{display:inline-flex;font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px;line-height:18px}
+.st.nc{background:var(--warn-bg);color:var(--warn)}
+.f .src{font-size:12px;color:var(--muted)}
+.linkbtn{border:0;background:none;padding:0;color:var(--link);font-size:13px;cursor:pointer;align-self:flex-start}
+.tbl input,.tbl select{border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:5px 8px;width:100%;min-width:90px;font-size:13px;min-height:32px}
+.tbl td{vertical-align:middle}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks button{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:14px}
+.checks button::before{content:"";width:16px;height:16px;border-radius:4px;border:1.5px solid var(--line);flex:none}
+.checks button[aria-pressed="true"]{border-color:var(--tog-on)}
+.checks button[aria-pressed="true"]::before{background:var(--tog-on);border-color:var(--tog-on);box-shadow:inset 0 0 0 3px var(--surface)}
+.uploads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:600px){.uploads{grid-template-columns:1fr}}
+.up{border:1.5px dashed var(--line);border-radius:12px;padding:16px;background:var(--surface);display:flex;flex-direction:column;gap:8px}
+.up.has{border-style:solid}
+.up strong{font-size:14px}
+.up small{color:var(--muted);font-size:12px}
+.up .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chan{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.chan.chan3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:760px){.chan.chan3{grid-template-columns:1fr}}
+@media (max-width:600px){.chan{grid-template-columns:1fr}}
+.chan button{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:16px;cursor:pointer;color:var(--ink)}
+.chan button strong{display:block;font-size:15px;margin-bottom:4px}
+.chan button span{color:var(--muted);font-size:13px}
+.chan button[aria-pressed="true"]{border-color:var(--tog-on);background:var(--mk-on)}
+.muted{color:var(--muted);font-size:13px}
+.svc-card{border:1px solid var(--line);border-radius:14px;background:var(--surface);margin:14px 0;overflow:hidden}
+.svc-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) auto;gap:12px;padding:16px;background:var(--surface-2);border-bottom:1px solid var(--line);align-items:end}
+@media (max-width:700px){.svc-head{grid-template-columns:1fr}}
+.svc-head .f input,.svc-head .f select{font-weight:500}
+.svc-body{padding:14px 16px 16px}
+.svc-body h5{font-size:13px;font-weight:600;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+.svc-body h5:first-child{margin-top:0}
+.minmax{display:flex;gap:4px;align-items:center}
+.minmax input{min-width:56px;width:64px}
+.coll{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:8px}
+.coll .prods{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.coll .prods span{font-size:12px;background:var(--chip);padding:2px 8px;border-radius:999px}
+.pick{max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:10px;margin-top:8px}
+.pick label{display:flex;gap:10px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer}
+.pick label:last-child{border-bottom:0}
+.pick small{color:var(--muted);margin-left:auto}
+.preview{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.preview div{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:14px}
+.preview div:last-child{border-bottom:0}
+.chips.sm button{font-size:13px;padding:5px 10px}
+.ms{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:8px}
+.ms-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;min-height:24px;align-items:center}
+.ms-chips:empty{display:none}
+.ms-chip{display:inline-flex;align-items:center;gap:4px;background:var(--mk-on);border-radius:999px;padding:3px 4px 3px 10px;font-size:13px}
+.ms-chip button{border:0;background:none;cursor:pointer;color:var(--muted);font-size:15px;line-height:1;padding:0 4px}
+.ms input{width:100%;border:0;background:transparent;padding:6px 4px;outline:none}
+.ms-list{position:absolute;left:0;right:0;top:100%;margin-top:4px;max-height:260px;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(8,51,61,.12);z-index:8}
+.ms-list[hidden],.ms-list button[hidden]{display:none}
+.ms-list button{display:flex;width:100%;text-align:left;border:0;background:transparent;padding:8px 12px;cursor:pointer;font-size:14px;color:var(--ink);gap:10px;align-items:center}
+.ms-list button::before{content:"";width:16px;height:16px;border-radius:4px;border:1.5px solid var(--line);flex:none}
+.ms-list button[aria-selected="true"]::before{background:var(--tog-on);border-color:var(--tog-on);box-shadow:inset 0 0 0 3px var(--surface)}
+.ms-list button:hover{background:var(--surface-2)}
+.ms-list button small{margin-left:auto;color:var(--muted);font-size:12px;text-align:right}
+.ms-list button[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+.ms-list .ms-g{display:flex;justify-content:space-between;align-items:center;padding:8px 12px 4px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);position:sticky;top:0;background:var(--surface)}
+.ms-list .ms-g button{all:unset;cursor:pointer;color:var(--link);font-size:12px;font-weight:500;text-transform:none;letter-spacing:0}
+.ms-list .ms-g button::before{display:none}
+.ms-list .ms-g[hidden]{display:none}
+.trk{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.trk li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.trk li:last-child{border-bottom:0}
+.trk small{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.trk-dot{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:600;color:var(--muted)}
+.trk li.done .trk-dot{background:var(--green);border-color:var(--green);color:#08333D}
+.trk li.now .trk-dot{border-color:var(--tog-on);color:var(--tog-on)}
+.z2-pills{display:flex;flex-wrap:wrap;gap:8px}
+.z2-pill{display:flex;align-items:center;gap:10px;min-width:170px;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer}
+.z2-pill[aria-pressed="true"]{border-color:var(--tog-on);background:var(--mk-on)}
+.z2-pill span{flex:1;min-width:0}.z2-pill strong{display:block;font-size:13px}.z2-pill small{display:block;font-size:12px;color:var(--muted)}
+.z2-x{border:0;background:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px}
+.z2-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.z2-chips:empty{display:none}
+.z2-hr{border:0;height:1px;background:var(--line);margin:20px 0}
+.z2-inner{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:14px}
+.z2-inner p{color:var(--muted);font-size:14px;margin:0 0 10px}
+.z2-tog{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+.z2-hr+.z2-tog{border-top:0}
+.z2-tog small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.sw2{position:relative;flex:none;width:42px;height:24px}.sw2 input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.sw2 span{position:absolute;inset:0;border-radius:999px;background:var(--chip);pointer-events:none;transition:background .15s}
+.sw2 span::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:left .15s}
+.sw2 input:checked+span{background:var(--tog-on)}.sw2 input:checked+span::after{left:21px}
+.sw2 input:focus-visible+span{outline:2px solid var(--focus);outline-offset:2px}
+.z2-rate{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--surface);margin-top:14px}
+.z2-grid3{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:12px}
+.z2-cond{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:10px}
+.cond3{display:grid;grid-template-columns:1.3fr 1fr .8fr;gap:10px}
+.z2-cond select,.z2-cond input{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:8px 10px;min-height:38px;width:100%}
+@media (max-width:600px){.z2-grid3,.cond3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><i aria-hidden="true"></i>openborder <span>Onboarding</span></div>
+  <div class="spacer"></div>
+  <span class="meta" id="saved">Saved just now</span>
+  <button class="ghost" id="reset">Reset</button>
+</header>
+
+<div class="wrap">
+  <aside class="side" id="side"></aside>
+  <main class="main"><div class="card" id="main"></div></main>
+</div>
+<div id="modal-root"></div>
+
+<script>
+/* ---------- reference data ---------- */
+const COUNTRIES=[
+ {c:'CA',n:'Canada',ti:false,eu:false,b:14.2},{c:'GB',n:'United Kingdom',ti:true,eu:false,b:16.8},
+ {c:'AU',n:'Australia',ti:true,eu:false,b:22.4},{c:'DE',n:'Germany',ti:true,eu:true,b:17.9},
+ {c:'FR',n:'France',ti:true,eu:true,b:18.3},{c:'NL',n:'Netherlands',ti:true,eu:true,b:17.6},
+ {c:'IE',n:'Ireland',ti:true,eu:true,b:17.2},{c:'IT',n:'Italy',ti:true,eu:true,b:19.1},
+ {c:'ES',n:'Spain',ti:true,eu:true,b:18.9},{c:'SE',n:'Sweden',ti:true,eu:true,b:19.4},
+ {c:'MX',n:'Mexico',ti:false,eu:false,b:15.6},{c:'JP',n:'Japan',ti:false,eu:false,b:21.3},
+ {c:'NZ',n:'New Zealand',ti:false,eu:false,b:23.1},{c:'KR',n:'South Korea',ti:false,eu:false,b:21.8},
+ {c:'AT',n:'Austria',ti:true,eu:true,b:18.6},{c:'BE',n:'Belgium',ti:true,eu:true,b:17.8},
+ {c:'DK',n:'Denmark',ti:true,eu:true,b:19.2},{c:'FI',n:'Finland',ti:true,eu:true,b:19.8},
+ {c:'PT',n:'Portugal',ti:true,eu:true,b:19.0},{c:'PL',n:'Poland',ti:true,eu:true,b:18.4},
+ {c:'CZ',n:'Czechia',ti:true,eu:true,b:18.7},{c:'GR',n:'Greece',ti:true,eu:true,b:20.1}
+];
+const CNAME=Object.fromEntries(COUNTRIES.map(x=>[x.c,x.n]));
+const CUR={CA:'CAD',GB:'GBP',AU:'AUD',MX:'MXN',JP:'JPY',NZ:'NZD',KR:'KRW',SE:'SEK',DK:'DKK',PL:'PLN',CZ:'CZK'};
+const REGIONS=[
+ {n:'United Kingdom',cs:['GB']},
+ {n:'European Union',cs:['IE','DE','FR','IT','ES','NL','AT','BE','DK','FI','PT','PL','CZ','GR','SE']},
+ {n:'North America',cs:['CA','MX']},
+ {n:'Asia Pacific',cs:['AU','NZ','JP','KR']}
+];
+const flag=c=>String.fromCodePoint(...[...c].map(ch=>127397+ch.charCodeAt(0)));
+const COUNTRY_OPTS=['United States','United Kingdom','Canada','Australia','Netherlands','Mexico','China','Other'];
+const YN=['Yes','No'];
+const ROLES=['Signer / decision maker','Head of ecommerce','Operations','Marketing','Developer','Product','Finance','Customer service','Other'];
+const CARRIERS=['Asendia US','Asendia DE','Asendia HK','Asendia UK','DHL eCommerce','DHL Express','UPS','EPG','Starlinks','APC'];
+const ALL_COUNTRIES='Afghanistan|Albania|Algeria|Andorra|Angola|Antigua and Barbuda|Argentina|Armenia|Australia|Austria|Azerbaijan|Bahamas|Bahrain|Bangladesh|Barbados|Belarus|Belgium|Belize|Benin|Bhutan|Bolivia|Bosnia and Herzegovina|Botswana|Brazil|Brunei|Bulgaria|Burkina Faso|Burundi|Cambodia|Cameroon|Canada|Cape Verde|Central African Republic|Chad|Chile|China|Colombia|Comoros|Costa Rica|Croatia|Cyprus|Czechia|Denmark|Djibouti|Dominica|Dominican Republic|Ecuador|Egypt|El Salvador|Equatorial Guinea|Estonia|Eswatini|Ethiopia|Fiji|Finland|France|Gabon|Gambia|Georgia|Germany|Ghana|Greece|Grenada|Guatemala|Guinea|Guyana|Haiti|Honduras|Hong Kong|Hungary|Iceland|India|Indonesia|Iraq|Ireland|Israel|Italy|Ivory Coast|Jamaica|Japan|Jordan|Kazakhstan|Kenya|Kosovo|Kuwait|Kyrgyzstan|Laos|Latvia|Lebanon|Lesotho|Liberia|Liechtenstein|Lithuania|Luxembourg|Macau|Madagascar|Malawi|Malaysia|Maldives|Mali|Malta|Mauritania|Mauritius|Mexico|Moldova|Monaco|Mongolia|Montenegro|Morocco|Mozambique|Namibia|Nepal|Netherlands|New Zealand|Nicaragua|Niger|Nigeria|North Macedonia|Norway|Oman|Pakistan|Panama|Papua New Guinea|Paraguay|Peru|Philippines|Poland|Portugal|Puerto Rico|Qatar|Romania|Rwanda|Saint Kitts and Nevis|Saint Lucia|Samoa|San Marino|Saudi Arabia|Senegal|Serbia|Seychelles|Sierra Leone|Singapore|Slovakia|Slovenia|Solomon Islands|South Africa|South Korea|Spain|Sri Lanka|Suriname|Sweden|Switzerland|Taiwan|Tajikistan|Tanzania|Thailand|Togo|Tonga|Trinidad and Tobago|Tunisia|Turkey|Turkmenistan|Uganda|Ukraine|United Arab Emirates|United Kingdom|United States|Uruguay|Uzbekistan|Vanuatu|Vietnam|Zambia|Zimbabwe'.split('|');
+const CART_TYPES=['All carts','One-time purchase','Subscription','Mixed cart'];
+const CATALOG=[
+ {id:'p1',n:'Daily Greens, 30 servings',sku:'DG-30',w:0.8},{id:'p2',n:'Daily Greens, 90 servings',sku:'DG-90',w:2.1},
+ {id:'p3',n:'Protein Blend Vanilla, 2 lb',sku:'PB-V2',w:2.3},{id:'p4',n:'Protein Blend Chocolate, 2 lb',sku:'PB-C2',w:2.3},
+ {id:'p5',n:'Protein Blend Vanilla, 5 lb',sku:'PB-V5',w:5.4},{id:'p6',n:'Travel Sachets, 14 pack',sku:'TS-14',w:0.4},
+ {id:'p7',n:'Shaker Bottle',sku:'SB-01',w:0.5},{id:'p8',n:'Starter Bundle',sku:'BND-ST',w:3.2},
+ {id:'p9',n:'Glass Jar Refill Kit',sku:'GJ-RK',w:1.9},{id:'p10',n:'Crewneck Sweatshirt',sku:'APP-CS',w:1.1},
+ {id:'p11',n:'Tote Bag',sku:'APP-TB',w:0.3},{id:'p12',n:'Gift Card',sku:'GC',w:0}
+];
+const uid=()=>Math.random().toString(36).slice(2,8);
+
+const LABEL_OPTS=['In the OpenBorder portal','Through our warehouse’s WMS or shipping software','With our own carrier account'];
+const OPERATOR_OPTS=['Our own warehouse','A 3PL','An OpenBorder fulfillment center'];
+const STEPS=[
+ {id:'business',t:'Your business',lede:'Tell us about your company and who we should work with.'},
+ {id:'channel',t:'Your store and tools',lede:'How your store connects to OpenBorder, and the tools that touch your orders.'},
+ {id:'markets',t:'Markets and checkout',lede:'Where you sell today, where you want to launch with OpenBorder, and what your customers pay at checkout.'},
+ {id:'fc',t:'Fulfillment',lede:'Where your orders ship from, how you print labels, and which location ships to each market.'},
+ {id:'shipping',t:'Shipping rates',lede:'The shipping options your international customers see at checkout.'},
+ {id:'billing',t:'Billing and team',lede:'Where invoices go, and who on your team needs access to OpenBorder.'},
+ {id:'review',t:'Review and submit',lede:'Check your answers, then send them to your OpenBorder onboarding team.'}
+];
+
+const F={
+ business:[
+  {sec:'Company'},
+  {id:'company_name',l:'Company name',req:1},
+  {id:'legal_name',l:'Legal entity name',hint:'If different from the company name'},
+  {id:'hq_country',l:'Company country',type:'select',o:COUNTRY_OPTS,req:1},
+  {id:'duns',l:'DUNS number',hint:'If you have one. It speeds up customs and carrier checks.'},
+  {id:'website',l:'Storefront website',hint:'We share this with carriers to review your products'},
+  {id:'contact_timezone',l:'Your time zone',req:1,ph:'e.g. Europe/London or US Pacific'},
+  {id:'product_category',l:'Main product category',type:'select',o:['Apparel','Jewelry and accessories','Skincare and beauty','Supplements and nutrition','Food and beverage','Electronics','Other'],req:1},
+  {id:'known_restrictions',l:'Anything we should know about your products?',type:'textarea',full:1,ph:'e.g. supplements with ingredient limits, batteries, or items a carrier has restricted before'},
+ ],
+ channel:[
+  {sec:'Shopify details',if:d=>d.channel==='Shopify'},
+  {id:'shopify_store',l:'Shopify store URL',req:1,ph:'yourstore.myshopify.com',if:d=>d.channel==='Shopify',hint:'OpenBorder works with Shopify Grow or higher'},
+  {sec:'BigCommerce details',if:d=>d.channel==='BigCommerce'},
+  {id:'bc_store',l:'BigCommerce store URL',req:1,ph:'yourstore.mybigcommerce.com',if:d=>d.channel==='BigCommerce'},
+  {id:'bc_plan',l:'BigCommerce plan',type:'select',o:['Standard','Plus','Pro','Enterprise'],if:d=>d.channel==='BigCommerce'},
+  {sec:'Your site',if:d=>d.channel==='Direct API (landed cost)'},
+  {id:'api_platform',l:'Which platform is your store on?',type:'select',o:['Custom storefront','WooCommerce','Salesforce Commerce Cloud','Other'],req:1,if:d=>d.channel==='Direct API (landed cost)'},
+  {id:'api_scope',l:'What do you need from our API?',type:'checks',o:['Landed cost quotes','Order creation','Label generation','Tracking'],req:1,full:1,if:d=>d.channel==='Direct API (landed cost)'},
+  {id:'api_sandbox',l:'Do you need test (sandbox) keys first?',type:'seg',o:YN,if:d=>d.channel==='Direct API (landed cost)'},
+  {sec:'Your current tools',if:d=>!!d.channel},
+  {id:'erp',l:'ERP',type:'select',o:['None','NetSuite','Brightpearl','Cin7','Acumatica','SAP','Other'],req:1,if:d=>!!d.channel},
+  {id:'erp_other',l:'Which ERP?',req:1,if:d=>d.erp==='Other'},
+  {id:'subscription_provider',l:'Subscription app',type:'select',o:['None','Recharge','Skio','Loop Subscriptions','Stay AI','Other'],req:1,if:d=>!!d.channel},
+  {id:'subscription_other',l:'Which provider?',req:1,if:d=>d.subscription_provider==='Other'},
+  {id:'subscriptions_intl',l:'Will subscriptions ship internationally?',type:'seg',o:YN,req:1,if:d=>d.subscription_provider&&d.subscription_provider!=='None'},
+  {id:'returns_platform',l:'Returns platform',type:'select',o:['None','Redo','Loop Returns','AfterShip Returns','Other'],if:d=>!!d.channel},
+  {id:'tech_notes',l:'Other apps that touch your orders',type:'textarea',full:1,ph:'e.g. helpdesk, order editing apps, checkout extensions',if:d=>!!d.channel},
+ ],
+ fc:[
+  {sec:'Where orders ship from'},
+  {id:'fc_operator',l:'Who ships your orders?',type:'select',o:OPERATOR_OPTS,req:1},
+  {id:'threepl_name',l:'3PL name',req:1,if:d=>d.fc_operator==='A 3PL'},
+  {id:'ob_fc',l:'Which OpenBorder fulfillment center?',req:1,if:d=>d.fc_operator==='An OpenBorder fulfillment center'},
+  {sec:'Shipping labels'},
+  {id:'label_flow',l:'How do you want to print labels for international orders?',type:'select',o:LABEL_OPTS,req:1,full:1,hint:'If a 3PL ships for you, pick the option that matches how they’d print them'},
+  {id:'own_carriers',l:'Which carrier accounts?',type:'checks',o:CARRIERS,req:1,full:1,if:d=>d.label_flow==='With our own carrier account',hint:'We’ll send a secure link for the account details after you submit'},
+  {sec:'Warehouse contact'},
+  {id:'fc_contact_name',l:'Name',req:1},
+  {id:'fc_contact_role',l:'Role',req:1,ph:'e.g. Warehouse manager'},
+  {id:'fc_contact_email',l:'Email',type:'email',req:1},
+  {id:'fc_contact_phone',l:'Phone',type:'tel',req:1},
+  {sec:'Warehouse address'},
+  {id:'fc_address1',l:'Address line 1',req:1,full:1},
+  {id:'fc_address2',l:'Address line 2',full:1},
+  {id:'fc_city',l:'City',req:1},
+  {id:'fc_state',l:'State / region'},
+  {id:'fc_country',l:'Country',type:'select',o:COUNTRY_OPTS,req:1},
+  {id:'fc_postal',l:'Postal code',req:1},
+  {sec:'Warehouse systems'},
+  {id:'wms',l:'Warehouse management system (WMS)',type:'select',o:['ShipHero','ShipStation','Packiyo','OrderCup','None','Other'],req:1},
+  {id:'wms_other',l:'Which WMS?',req:1,if:d=>d.wms==='Other'},
+  {id:'daily_volume',l:'International orders per day (estimate)',type:'select',o:['Under 25','25 to 100','100 to 500','500+']},
+  {id:'tsa_verified',l:'Are you TSA verified?',type:'seg',o:['Yes','No','Not sure'],hint:'Just for our info. It helps us plan carrier checks.'},
+ ],
+ markets:[
+  {id:'live_intl',l:'Do you already sell internationally?',type:'seg',o:YN,req:1,full:1},
+ ],
+ shipping:[],
+ compliance:[],
+ billing:[
+  {sec:'Invoices'},
+  {id:'billing_email',l:'Billing email',type:'email',req:1,hint:'Where OpenBorder sends invoices'},
+ ],
+ review:[]
+};
+const CHECKOUT=[
+ {id:'customer_pays',l:'Your customers pay',type:'checks',o:['Tax','Duties','Shipping'],req:1,full:1,hint:'Anything not ticked, you cover'},
+ {id:'checkout_notes',l:'Anything else about checkout?',type:'textarea',full:1,ph:'e.g. free shipping over £150, or a margin added to shipping'}
+];
+const FIELD_DEF={};[...Object.values(F).flat(),...CHECKOUT].forEach(f=>{if(f.id)FIELD_DEF[f.id]=f});
+
+/* ---------- state ---------- */
+const defaultServices=()=>[
+ {id:uid(),name:'Express DDP',carrier:'',sla:'',overrides:[]}
+];
+const newShip=()=>({mode:'ob',adj:{otp:'10',sub:'0',mixed:'10'},collRates:[],custom:[],previewCart:'otp'});
+const newZone=(name,countries)=>({id:uid(),name:name||'',countries:countries||[],mode:'ob',ob:{},rules:[]});
+const blank=()=>({step:0,data:{},src:{},nc:{},contacts:[],markets:[],existing:[],locs:[],users:[],markup:10,rt:{state:'idle',file:''},comp:{carriers:{},restrictions:[]},docs:{msa:'',ratecard:''},extract:{state:'idle',msg:''},collections:[],services:defaultServices(),zones:[],ship:newShip(),launched:false});
+let S;
+function load(){try{const r=localStorage.getItem('ob-onb-v5');if(r){S=Object.assign(blank(),JSON.parse(r));return}}catch(e){}S=blank()}
+function save(){try{localStorage.setItem('ob-onb-v5',JSON.stringify(S))}catch(e){}}
+load();
+if(!S.comp)S.comp={carriers:{},restrictions:[]};
+if(!S.ship)S.ship=newShip();
+if(S.step>=STEPS.length)S.step=STEPS.length-1;
+if(['Through our WMS or shipping software','Our 3PL prints them'].includes(S.data.label_flow))S.data.label_flow='Through our warehouse’s WMS or shipping software';
+(S.locs||[]).forEach(l=>{if(['Through our WMS or shipping software','Our 3PL prints them'].includes(l.method))l.method='Through our warehouse’s WMS or shipping software'});
+if(!S.zones){S.zones=[newZone('International',[...S.markets])];S.services.forEach(sv=>{delete sv.rules;if(sv.sla==null)sv.sla=''})}
+['carriers','own_carriers'].forEach(k=>{if(S.data[k])S.data[k]=S.data[k].split(', ').filter(c=>CARRIERS.includes(c)).join(', ')});
+S.services.forEach(sv=>{if(!CARRIERS.includes(sv.carrier))sv.carrier='';sv.overrides.forEach(o=>{if(o.carrier&&!CARRIERS.includes(o.carrier))o.carrier=''})});
+S.existing=S.existing.map(c=>CNAME[c]||c);
+S.locs.forEach(l=>{if(!l.markets)l.markets=[]});
+if(S.rt.state==='running')S.rt.state='idle';
+if(S.extract.state==='running')S.extract={state:'idle',msg:''};
+const DOCTEXT={msa:'',ratecard:''};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const isAPI=()=>S.data.channel==='Direct API (landed cost)';
+const isShopify=()=>S.data.channel==='Shopify';
+const list=v=>(v||'').split(', ').filter(Boolean);
+const allCarriers=()=>S.data.label_flow==='With our own carrier account'?list(S.data.own_carriers):[];
+const carrierServiceOpts=()=>allCarriers().length?allCarriers():CARRIERS;
+let sample=null,mkq='';
+(async()=>{try{if(window.claude&&claude.use){sample=await claude.use('sample');if(STEPS[S.step].id==='billing')renderMain()}}catch(e){sample=null}})();
+
+/* ---------- completion ---------- */
+const shown=f=>!f.if||f.if(S.data);
+function visFields(id){return [...(F[id]||[]),...(id==='markets'?CHECKOUT:[])].filter(f=>!f.sec&&shown(f))}
+function stepDone(id){
+  if(id==='review')return S.launched;
+  if(!visFields(id).filter(f=>f.req).every(f=>String(S.data[f.id]||'').trim()))return false;
+  if(id==='business')return S.contacts.some(c=>c.name&&c.email&&c.role);
+  if(id==='channel')return !!S.data.channel;
+  if(id==='fc'&&((primaryMode()==='specific'&&!primaryMarkets().length)||S.locs.some(l=>!(l.markets||[]).length)||S.markets.some(c=>!routeOf(c))))return false;
+  if(id==='markets')return S.markets.length>0&&!!S.data.test_market&&(S.data.live_intl!=='Yes'||S.existing.length>0);
+  if(id==='shipping'){z2();return S.markets.length>0&&S.markets.every(c=>zoneOf(c))&&S.z2.every(z=>z.countries.length&&(z.mode==='openborder'||z.ownRates.every(r=>String(r.amount).trim())))}
+  if(id==='compliance')return allCarriers().length>0;
+  return true;
+}
+
+/* ---------- sidebar ---------- */
+function renderSide(){
+  const done=STEPS.filter(s=>stepDone(s.id)).length,pct=Math.round(done/STEPS.length*100);
+  const sub=isAPI()?'Direct API merchant':isShopify()?(S.data.shopify_store||'Shopify merchant'):'Channel not set';
+  document.getElementById('side').innerHTML=`<div class="card prog"><h2>${esc(S.data.company_name||'Setup progress')}</h2><p class="sub">${esc(sub)}</p>
+  <div class="bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><b style="width:${pct}%"></b></div>
+  <p class="sub" style="margin-top:-6px">${done} of ${STEPS.length} complete · ${pct}%</p>
+  <ol class="steps">${STEPS.map((s,i)=>{const dn=stepDone(s.id);return `<li><button data-go="${i}" ${i===S.step?'aria-current="step"':''}><span class="dot ${dn?'done':''}">${dn?'✓':i+1}</span>${esc(s.t)}</button></li>`}).join('')}</ol></div>
+  <div class="card legend"><h3>Need help?</h3>Book a call with the onboarding team or <a href="#" style="color:var(--link)">view setup guides</a>.</div>`;
+}
+
+/* ---------- fields ---------- */
+function fieldHTML(x){
+  const v=S.data[x.id]??'',id='fld_'+x.id,opts=x.o||[];
+  let inp;
+  if(x.type==='select')inp=`<select id="${id}" data-f="${x.id}" data-rr="1"><option value="">Select</option>${opts.map(o=>`<option ${o===v?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+  else if(x.type==='textarea')inp=`<textarea id="${id}" data-f="${x.id}" placeholder="${esc(x.ph||'')}">${esc(v)}</textarea>`;
+  else if(x.type==='seg')inp=`<div class="seg" role="group" aria-label="${esc(x.l)}">${opts.map(o=>`<button type="button" data-seg="${x.id}" data-v="${esc(o)}" aria-pressed="${o===v}">${esc(o)}</button>`).join('')}</div>`;
+  else if(x.type==='checks'){const sel=list(v);inp=`<div class="checks" role="group" aria-label="${esc(x.l)}">${opts.map(o=>`<button type="button" data-chk="${x.id}" data-v="${esc(o)}" aria-pressed="${sel.includes(o)}">${esc(o)}</button>`).join('')}</div>`}
+  else inp=`<input id="${id}" data-f="${x.id}" type="${x.type||'text'}" value="${esc(v)}" placeholder="${esc(x.ph||'')}">`;
+  const grp=x.type==='seg'||x.type==='checks';
+  return `<div class="f ${x.full?'full':''}"><label ${grp?'':`for="${id}"`}>${esc(x.l)}${x.req?'':' <span class="opt">(optional)</span>'}${S.nc[x.id]?' <span class="st nc">Check</span>':''}</label>${inp}${x.hint?`<span class="hint">${esc(x.hint)}</span>`:''}${S.src[x.id]?`<span class="src">${esc(S.src[x.id])}${S.nc[x.id]?` · <button type="button" class="linkbtn" data-ok="${x.id}">Looks right</button>`:''}</span>`:''}</div>`;
+}
+function renderFields(fs){
+  let h='',open=false;const close=()=>{if(open){h+='</div>';open=false}};
+  fs.forEach(x=>{
+    if(x.sec){if(!x.if||x.if(S.data)){close();h+=`<h3 class="section-title">${esc(x.sec)}</h3>`}return}
+    if(!shown(x))return;
+    if(!open){h+='<div class="grid">';open=true}
+    h+=fieldHTML(x);
+  });
+  close();return h;
+}
+
+/* ---------- panels ---------- */
+const TOP={},P={};
+
+P.business=()=>{
+  const ro=r=>ROLES.map(o=>`<option ${o===r?'selected':''}>${esc(o)}</option>`).join('');
+  return `<h3 class="section-title">Your team</h3><p class="lede" style="margin-bottom:12px">Add the people we should work with and their role. If you’ll connect through our API, add a Developer. Your warehouse contact goes on the Fulfillment step.</p>
+  <div class="tbl"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th></th></tr></thead><tbody>
+  ${S.contacts.map((r,i)=>`<tr><td><input data-ct="${i}" data-k="name" value="${esc(r.name)}" aria-label="Name"></td><td><input type="email" data-ct="${i}" data-k="email" value="${esc(r.email)}" aria-label="Email"></td><td><input type="tel" data-ct="${i}" data-k="phone" value="${esc(r.phone)}" aria-label="Phone"></td><td><select data-ct="${i}" data-k="role" aria-label="Role"><option value="">Select role</option>${ro(r.role)}</select></td><td><button class="btn sec sm" data-delct="${i}" aria-label="Remove contact">×</button></td></tr>`).join('')||'<tr><td colspan="5" class="muted">No contacts yet</td></tr>'}
+  </tbody></table></div><button class="btn sec sm" id="addct" style="margin-top:10px">Add contact</button>`;
+};
+
+TOP.channel=()=>{
+  const c=S.data.channel||'';
+  let h=`<h3 class="section-title">How does your store connect?</h3><div class="chan chan3" role="group" aria-label="Store connection">
+   <button data-chan="Shopify" aria-pressed="${c==='Shopify'}"><strong>Shopify</strong><span>Use OpenBorder in your Shopify checkout</span></button>
+   <button data-chan="BigCommerce" aria-pressed="${c==='BigCommerce'}"><strong>BigCommerce</strong><span>Use OpenBorder in your BigCommerce checkout</span></button>
+   <button data-chan="Direct API (landed cost)" aria-pressed="${c==='Direct API (landed cost)'}"><strong>Custom site or API</strong><span>Your developer connects your site to OpenBorder’s API for landed cost and orders</span></button></div>`;
+  if(c==='Shopify')h+=`<div class="note"><span class="ic">ℹ️</span><div>After you submit, you’ll install the OpenBorder app. Nothing changes in your Shopify markets, catalogs or shipping until you go live.</div></div>`;
+  if(c==='BigCommerce')h+=`<div class="note"><span class="ic">ℹ️</span><div>After you submit, your onboarding team sends the steps to connect your BigCommerce store. Nothing changes at your checkout until you go live.</div></div>`;
+  if(isAPI())h+=`<div class="note"><span class="ic">ℹ️</span><div>No app to install. Your developer gets API keys from your onboarding team.${S.contacts.some(x=>x.role==='Developer')?'':' Add a <b>Developer</b> on the Your business step so we know who to send them to.'}</div></div>`;
+  return h;
+};
+
+/* ---------- multi-select dropdown ---------- */
+let modalSel=[],modalIdx=-1;const MS_DIRTY=new Set();
+const MS={
+ existing:{get:()=>S.existing,set:a=>{S.existing=a},opts:()=>ALL_COUNTRIES.map(n=>({v:n,label:n}))},
+ launch:{get:()=>S.markets,set:a=>{S.markets=a;if(!a.includes(S.data.test_market))S.data.test_market='';S.locs.forEach(l=>{l.markets=(l.markets||[]).filter(c=>a.includes(c))});S.zones.forEach(z=>{z.countries=z.countries.filter(c=>a.includes(c))});S.data.fc_route_markets=primaryMarkets().filter(c=>a.includes(c)).join(', ')},
+   opts:()=>REGIONS.flatMap(r=>r.cs.map(c=>{const x=COUNTRIES.find(y=>y.c===c);return {v:c,label:x.n,flag:c,group:r.n,meta:`DDP${x.ti?' · TAX-INCL':''} · ${CUR[c]||'EUR'}${S.existing.includes(x.n)?' · sells here today':''}`}}))},
+ route:{get:()=>primaryMarkets(),set:a=>{S.data.fc_route_markets=a.join(', ')},opts:()=>S.markets.map(c=>{const o=ownerOf(c,'primary');return {v:c,label:CNAME[c],flag:c,disabled:!!o,meta:o?'Fulfilled by '+o:''}})},
+ loc:{get:()=>modalSel,set:a=>{modalSel=a},noRender:true,opts:()=>S.markets.map(c=>{const o=ownerOf(c,modalIdx);return {v:c,label:CNAME[c],flag:c,disabled:!!o,meta:o?'Fulfilled by '+o:''}})}
+};
+function msCfg(key){if(MS[key])return MS[key];if(key.startsWith('zone:')){const z=S.zones.find(x=>x.id===key.slice(5));if(!z)return {get:()=>[],set:()=>{},opts:()=>[]};return {get:()=>z.countries,set:a=>{z.countries=a},opts:()=>S.markets.map(c=>{const o=S.zones.find(y=>y!==z&&y.countries.includes(c));return {v:c,label:CNAME[c],flag:c,disabled:!!o,meta:o?'In '+(o.name||'another zone'):''}})}}return {get:()=>[],set:()=>{},opts:()=>[]}}
+function msChips(key){const cfg=msCfg(key),o=cfg.opts(),sel=cfg.get();return sel.length?sel.map(v=>{const x=o.find(y=>y.v===v)||{label:CNAME[v]||v};return `<span class="ms-chip">${x.flag?flag(x.flag)+' ':''}${esc(x.label)}<button type="button" data-msdel="${key}" data-v="${esc(v)}" aria-label="Remove ${esc(x.label)}">×</button></span>`}).join(''):''}
+function msHTML(key,ph){
+  const cfg=msCfg(key),sel=cfg.get(),opts=cfg.opts();
+  const optH=x=>`<button type="button" role="option" data-msopt="${key}" data-v="${esc(x.v)}" data-n="${esc(x.label.toLowerCase())}" aria-selected="${sel.includes(x.v)}" ${x.disabled?'aria-disabled="true"':''}>${x.flag?`<span aria-hidden="true">${flag(x.flag)}</span>`:''}<span>${esc(x.label)}</span>${x.meta?`<small>${esc(x.meta)}</small>`:''}</button>`;
+  const groups=[...new Set(opts.map(x=>x.group).filter(Boolean))];
+  const body=groups.length?groups.map(g=>`<div class="ms-g" data-g="${esc(g)}"><span>${esc(g)}</span><button type="button" data-msgroup="${key}" data-g="${esc(g)}">Select all</button></div>${opts.filter(x=>x.group===g).map(optH).join('')}`).join(''):opts.map(optH).join('');
+  return `<div class="ms" data-ms="${key}"><div class="ms-chips">${msChips(key)}</div>
+   <input class="ms-q" data-msq="${key}" type="search" placeholder="${esc(ph)}" autocomplete="off" aria-expanded="false">
+   <div class="ms-list" data-mslist="${key}" role="listbox" aria-multiselectable="true" hidden>${body||'<p class="muted" style="padding:10px 12px;margin:0">No countries to pick from</p>'}</div></div>`;
+}
+function msRefresh(key){
+  const box=document.querySelector(`[data-ms="${key}"]`);if(!box)return;const sel=msCfg(key).get();
+  box.querySelector('.ms-chips').innerHTML=msChips(key);
+  box.querySelectorAll('[data-msopt]').forEach(b=>b.setAttribute('aria-selected',sel.includes(b.dataset.v)));
+  MS_DIRTY.add(key);save();renderSide();
+}
+function msToggle(key,v){const cfg=msCfg(key),cur=cfg.get();cfg.set(cur.includes(v)?cur.filter(x=>x!==v):[...cur,v]);msRefresh(key)}
+function msOpen(key,open){const box=document.querySelector(`[data-ms="${key}"]`);if(!box)return;box.querySelector('.ms-list').hidden=!open;box.querySelector('.ms-q').setAttribute('aria-expanded',open)}
+function msClose(key){msOpen(key,false);if(MS_DIRTY.has(key)){MS_DIRTY.delete(key);if(!msCfg(key).noRender){const y=window.scrollY;renderMain();window.scrollTo(0,y)}}}
+document.addEventListener('mousedown',e=>{
+  const o=e.target.closest('[data-msopt]');
+  if(o){e.preventDefault();if(o.getAttribute('aria-disabled')!=='true')msToggle(o.dataset.msopt,o.dataset.v);return}
+  const g=e.target.closest('[data-msgroup]');
+  if(g){e.preventDefault();const key=g.dataset.msgroup,cfg=msCfg(key),vs=cfg.opts().filter(x=>x.group===g.dataset.g&&!x.disabled).map(x=>x.v),cur=cfg.get(),all=vs.every(v=>cur.includes(v));cfg.set(all?cur.filter(v=>!vs.includes(v)):[...new Set([...cur,...vs])]);msRefresh(key);return}
+  const box=e.target.closest('[data-ms]');
+  document.querySelectorAll('[data-ms]').forEach(b=>{if(b!==box&&!b.querySelector('.ms-list').hidden)msClose(b.dataset.ms)});
+});
+document.addEventListener('focusin',e=>{if(e.target.dataset&&e.target.dataset.msq)msOpen(e.target.dataset.msq,true)});
+document.addEventListener('keydown',e=>{if(e.target.dataset&&e.target.dataset.msq&&e.key==='Escape')msClose(e.target.dataset.msq);if(e.target.dataset&&e.target.dataset.zsel!==undefined&&(e.key==='Enter'||e.key===' ')){e.preventDefault();S.z2i=+e.target.dataset.zsel;save();render()}});
+document.addEventListener('focusout',e=>{const k=e.target.dataset&&e.target.dataset.msq;if(k)setTimeout(()=>{const a=document.activeElement;if(!a||!a.closest||!a.closest(`[data-ms="${k}"]`))msClose(k)},150)});
+function msFilter(key,q){q=(q||'').toLowerCase();const box=document.querySelector(`[data-ms="${key}"]`);if(!box)return;
+  box.querySelectorAll('[data-msopt]').forEach(b=>b.hidden=!b.dataset.n.includes(q));
+  box.querySelectorAll('.ms-g').forEach(h=>{const vis=[...box.querySelectorAll('[data-msopt]')].some(b=>!b.hidden&&msCfg(key).opts().find(x=>x.v===b.dataset.v&&x.group===h.dataset.g));h.hidden=!vis})}
+
+/* ---------- routing ---------- */
+const primaryName=()=>S.data.fc_operator==='A 3PL'?(S.data.threepl_name||'Your 3PL'):S.data.fc_operator==='An OpenBorder fulfillment center'?(S.data.ob_fc||'OpenBorder fulfillment center'):'Your warehouse';
+const primaryMode=()=>S.data.fc_routing||'rest';
+const primaryMarkets=()=>S.data.fc_route_markets?S.data.fc_route_markets.split(', ').filter(Boolean):[];
+const primaryWms=()=>S.data.wms==='Other'?(S.data.wms_other||'Other'):(S.data.wms||'');
+function ownerOf(c,skipLoc){
+  const l=S.locs.find((x,i)=>i!==skipLoc&&(x.markets||[]).includes(c));if(l)return l.name;
+  if(skipLoc!=='primary'&&primaryMode()==='specific'&&primaryMarkets().includes(c))return primaryName();
+  return null;
+}
+function routeInfo(c){
+  const l=S.locs.find(x=>(x.markets||[]).includes(c));
+  if(l)return {name:l.name,wms:l.wms||'',method:l.method||S.data.label_flow||''};
+  if(primaryMode()==='rest'||primaryMarkets().includes(c))return {name:primaryName(),wms:primaryWms(),method:S.data.label_flow||''};
+  return null;
+}
+const routeOf=c=>{const r=routeInfo(c);return r&&r.name};
+function routingTable(){
+  return `<div class="tbl" style="margin-top:12px"><table><thead><tr><th>Market</th><th>Fulfilled by</th><th>WMS</th><th>Labels</th></tr></thead><tbody>${S.markets.map(c=>{const r=routeInfo(c);return `<tr><td>${flag(c)} ${esc(CNAME[c])}</td>${r?`<td>${esc(r.name)}</td><td>${esc(r.wms)||'<span class="missing">Not set</span>'}</td><td>${esc(r.method)||'<span class="missing">Not set</span>'}</td>`:'<td colspan="3"><span class="missing">No location assigned</span></td>'}</tr>`}).join('')}</tbody></table></div>`;
+}
+P.fc=()=>{
+  if(!S.markets.length)return `<h3 class="section-title">Routing</h3><div class="note warn"><span class="ic">⚠️</span><div>Pick launch markets on the <button class="linkbtn" data-go="2">Markets step</button> first. Then choose which location ships to each one.</div></div>`;
+  const mode=primaryMode();
+  let h=`<h3 class="section-title">Routing</h3><p class="lede" style="margin-bottom:10px">Which markets each location ships to. One location per country.</p>
+  <div class="box" style="margin-top:0"><h4>${esc(primaryName())} <span class="muted" style="font-weight:400">· ${esc([S.data.fc_city,S.data.fc_country].filter(Boolean).join(', ')||'address above')}</span></h4>
+   <div class="seg" style="margin:8px 0 10px"><button type="button" data-route="rest" aria-pressed="${mode==='rest'}">All my launch markets</button><button type="button" data-route="specific" aria-pressed="${mode==='specific'}">Specific markets</button></div>
+   ${mode==='specific'?msHTML('route','Search launch markets'):''}</div>`;
+  h+=S.locs.map((l,i)=>`<div class="box"><h4>${esc(l.name)} <span class="muted" style="font-weight:400">· ${esc([l.city,l.country].filter(Boolean).join(', '))}</span></h4>
+   <p style="margin:0 0 8px">Fulfills: ${(l.markets||[]).length?l.markets.map(c=>esc(CNAME[c])).join(', '):'<span class="missing">no markets yet</span>'}${l.wms?` · ${esc(l.wms)}`:''}${l.method?` · ${esc(l.method)}`:''}</p>
+   <div style="display:flex;gap:6px"><button class="btn sec sm" data-editloc="${i}">Edit</button><button class="btn sec sm" data-delloc="${i}">Remove</button></div></div>`).join('');
+  h+=`<button class="btn sec sm" id="addloc">Add another location</button>`+routingTable();
+  return h;
+};
+function locModal(i){
+  const l=i==null?{name:'',address1:'',city:'',state:'',postal:'',country:'',markets:[],wms:'',method:''}:S.locs[i];
+  modalSel=[...(l.markets||[])];modalIdx=i==null?-1:i;
+  const opt=(arr,v,first)=>`<option value="">${first}</option>`+arr.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('');
+  modal(`<h3>${i==null?'Add another location':'Edit location'}</h3><div class="grid">
+   <div class="f full"><label for="ml_name">3PL or warehouse name</label><input id="ml_name" value="${esc(l.name)}"></div>
+   <div class="f full"><label for="ml_a1">Street address</label><input id="ml_a1" value="${esc(l.address1||'')}"></div>
+   <div class="f"><label for="ml_city">City</label><input id="ml_city" value="${esc(l.city)}"></div>
+   <div class="f"><label for="ml_state">Region / state</label><input id="ml_state" value="${esc(l.state||'')}"></div>
+   <div class="f"><label for="ml_postal">Postal code</label><input id="ml_postal" value="${esc(l.postal||'')}"></div>
+   <div class="f"><label for="ml_country">Country</label><select id="ml_country">${opt(COUNTRY_OPTS,l.country,'Select')}</select></div>
+   <div class="f"><label for="ml_wms">WMS</label><select id="ml_wms">${opt(['ShipHero','ShipStation','Packiyo','OrderCup','None','Other'],l.wms,'Select')}</select></div>
+   <div class="f"><label for="ml_method">How labels are printed</label><select id="ml_method">${opt(LABEL_OPTS,l.method,'Same as main location')}</select></div>
+   <div class="f full"><label>Markets this location fulfills</label>${msHTML('loc','Search launch markets')}<span class="hint">Only launch markets are listed. Ones already routed elsewhere can’t be picked.</span></div></div>`,
+   r=>{const n=r.querySelector('#ml_name').value.trim();if(!n){r.querySelector('#ml_name').focus();return false}
+     if(!modalSel.length){toast('Pick at least one market');return false}
+     const o={name:n,address1:r.querySelector('#ml_a1').value,city:r.querySelector('#ml_city').value,state:r.querySelector('#ml_state').value,postal:r.querySelector('#ml_postal').value,country:r.querySelector('#ml_country').value,wms:r.querySelector('#ml_wms').value,method:r.querySelector('#ml_method').value,markets:[...modalSel]};
+     if(i==null)S.locs.push(o);else S.locs[i]=o;},i==null?'Add location':'Save');
+}
+
+/* ---------- markets ---------- */
+P.markets=()=>{
+  let h='';
+  if(S.data.live_intl==='Yes')h+=`<h3 class="section-title">Where you sell today</h3><p class="lede" style="margin-bottom:10px">We won’t change your current ${isShopify()?'Shopify markets, catalogs or shipping':'setup'} in these countries until you go live.</p>${msHTML('existing','Search and add countries')}`;
+  h+=`<h3 class="section-title">Where you want to launch with OpenBorder</h3>${msHTML('launch','Search and add launch markets')}`;
+  const ti=S.markets.filter(c=>COUNTRIES.find(x=>x.c===c).ti);
+  if(ti.length&&isShopify())h+=`<div class="note warn"><span class="ic">⏸️</span><div><b>${ti.map(c=>CNAME[c]).join(', ')}</b> will be tax-inclusive. Prices there include tax at checkout. We set that up in your Shopify markets only when you go live. <span class="tag hold">Held</span></div></div>`;
+  h+=`<h3 class="section-title">Test order</h3><div class="grid"><div class="f"><label for="fld_test_market">Which country should we test first?</label>
+   <select id="fld_test_market" data-f="test_market" data-rr="1" ${S.markets.length?'':'disabled'}><option value="">${S.markets.length?'Select':'Pick launch markets first'}</option>${S.markets.map(c=>`<option value="${c}" ${S.data.test_market===c?'selected':''}>${esc(CNAME[c])}</option>`).join('')}</select>
+   <span class="hint">We switch this market on first for a test order. Your other markets go live after it passes.</span></div></div>`;
+  h+=`<h3 class="section-title">What your customers pay at checkout</h3><div class="grid">${CHECKOUT.map(fieldHTML).join('')}</div>`;
+  const cp=list(S.data.customer_pays);
+  if(cp.length&&!cp.includes('Duties'))h+=`<div class="note warn"><span class="ic">⚠️</span><div>You’ll cover duties on these orders, since customers won’t be charged for them at checkout.</div></div>`;
+  return h;
+};
+
+/* shipping profile: services defined once, zones with OB rates or custom rates */
+/* delivery estimates come from carrier transit history (sample numbers in this prototype) */
+const TRANSIT={'Asendia US':[5,9],'Asendia DE':[4,8],'Asendia HK':[7,12],'Asendia UK':[4,7],'DHL eCommerce':[5,10],'DHL Express':[2,4],'UPS':[3,5],'EPG':[6,12],'Starlinks':[4,8],'APC':[6,10]};
+const REGION_ADJ={CA:-1,MX:1,GB:0,AU:2,NZ:2,JP:2,KR:2};
+function slaFor(carrier,c){const t=TRANSIT[carrier];if(!t)return null;const a=c?(REGION_ADJ[c]??1):0;return [Math.max(1,t[0]+a),t[1]+a]}
+const slaText=r=>r?`${r[0]} to ${r[1]} business days`:'';
+function slaBlock(s){
+  if(!s.carrier)return `<span class="muted">Assign a carrier to see the estimate</span>`;
+  const ms=S.markets.length?S.markets:[];
+  if(!ms.length)return `<strong>${slaText(slaFor(s.carrier))}</strong>`;
+  const all=ms.map(c=>{const o=s.overrides.find(x=>x.market===c);return slaFor((o&&o.carrier)||s.carrier,c)});
+  const lo=Math.min(...all.map(r=>r[0])),hi=Math.max(...all.map(r=>r[1]));
+  return `<strong>${lo} to ${hi} business days</strong><small class="muted" style="display:block">${ms.map((c,i)=>`${esc(CNAME[c])} ${all[i][0]} to ${all[i][1]}`).join(' · ')}</small>`;
+}
+function serviceCard(s){
+  const cs=carrierServiceOpts();
+  return `<div class="svc-card"><div class="svc-head" style="grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr) auto">
+   <div class="f"><label for="sn_${s.id}">Service name</label><input id="sn_${s.id}" data-svcf="${s.id}" data-k="name" value="${esc(s.name)}" placeholder="e.g. Standard shipping"></div>
+   <div class="f"><label for="sc_${s.id}">Carrier</label><select id="sc_${s.id}" data-svcf="${s.id}" data-k="carrier"><option value="">Not assigned yet</option>${cs.map(o=>`<option ${o===s.carrier?'selected':''}>${esc(o)}</option>`).join('')}</select></div>
+   <div class="f"><label>Delivery estimate</label><div style="min-height:40px;display:flex;flex-direction:column;justify-content:center">${slaBlock(s)}</div><span class="hint">From this carrier’s historical transit times</span></div>
+   <button class="btn sec sm" data-delsvc="${s.id}">Remove</button></div>
+   <div class="svc-body"><h5>Market overrides <span class="opt muted">(optional)</span></h5>
+    ${s.overrides.length?`<div class="tbl"><table><thead><tr><th>Market</th><th>Name in this market</th><th>Carrier in this market</th><th></th></tr></thead><tbody>
+    ${s.overrides.map(o=>`<tr><td><select data-ov="${s.id}:${o.id}" data-k="market" aria-label="Market"><option value="">Select</option>${S.markets.map(c=>`<option value="${c}" ${c===o.market?'selected':''}>${esc(CNAME[c])}</option>`).join('')}</select></td>
+      <td><input data-ov="${s.id}:${o.id}" data-k="name" value="${esc(o.name)}" placeholder="${esc(s.name)}" aria-label="Name in market"></td>
+      <td><select data-ov="${s.id}:${o.id}" data-k="carrier" aria-label="Carrier in market"><option value="">Same as service</option>${cs.map(x=>`<option ${x===o.carrier?'selected':''}>${esc(x)}</option>`).join('')}</select></td>
+      <td><button class="btn sec sm" data-delov="${s.id}:${o.id}" aria-label="Remove override">×</button></td></tr>`).join('')}</tbody></table></div>`:''}
+    <button class="btn sec sm" data-addov="${s.id}" ${S.markets.length?'':'disabled'}>Add market override</button></div></div>`;
+}
+const CARTS=[['otp','One-time purchase'],['sub','Subscription'],['mixed','Mixed cart']];
+const CART_LABEL=Object.fromEntries(CARTS);
+const svcName=id=>(S.services.find(x=>x.id===id)||{}).name||'';
+const CARRIER_SERVICES={'Asendia US':['e-PAQ Standard','e-PAQ Plus','e-PAQ Select'],'Asendia DE':['e-PAQ Standard','e-PAQ Plus','e-PAQ Select'],'Asendia HK':['e-PAQ Standard','e-PAQ Plus','e-PAQ Select'],'Asendia UK':['e-PAQ Standard','e-PAQ Plus','e-PAQ Select'],'DHL eCommerce':['Parcel International Standard','Parcel International Direct','Packet International'],'DHL Express':['Express Worldwide','Express 12:00','Economy Select'],'UPS':['Worldwide Saver','Worldwide Expedited','Standard'],'EPG':['Standard','Express'],'Starlinks':['Standard','Express'],'APC':['Priority','Standard']};
+const GENERIC='';
+function svcSla(carrier,service,c){
+  if(!carrier){const a=c?(REGION_ADJ[c]??1):0;return [Math.max(1,5+a),9+a]}
+  const r=slaFor(carrier,c);if(!r)return null;
+  if(/express|priority|12:00|plus|select/i.test(service||''))return [Math.max(1,r[0]-2),Math.max(2,r[1]-3)];
+  return r;
+}
+function svcEstimate(carrier,service,countries){
+  const rs=(countries.length?countries:[null]).map(c=>svcSla(carrier,service,c));
+  return `${Math.min(...rs.map(x=>x[0]))} to ${Math.max(...rs.map(x=>x[1]))} business days`;
+}
+const svcLabel=(carrier,service)=>carrier?`${carrier} · ${service||'service not picked'}`:'Generic shipping service';
+function svcPicker(attr,carrier,service,countries,idp){
+  return `<div class="f"><label for="${idp}c">Carrier</label><select id="${idp}c" ${attr}carrier"><option value="" ${!carrier?'selected':''}>Generic shipping service (no carrier)</option>${CARRIERS.map(c=>`<option ${c===carrier?'selected':''}>${esc(c)}</option>`).join('')}</select><span class="hint">Optional. Generic services use OpenBorder’s carrier choice.</span></div>
+   ${carrier?`<div class="f"><label for="${idp}s">Service</label><select id="${idp}s" ${attr}service">${(CARRIER_SERVICES[carrier]||['Standard']).map(o=>`<option ${o===service?'selected':''}>${esc(o)}</option>`).join('')}</select></div>`:''}
+   <div class="f"><label>Delivery estimate</label><div style="min-height:40px;display:flex;align-items:center"><strong>${svcEstimate(carrier,service,countries)}</strong></div><span class="hint">${carrier?'From this carrier service’s transit history':'From OpenBorder’s blended transit history'}</span></div>`;
+}
+const COND_TYPES=['Weight based','Order value','Order type','Product collection'];
+const CMP=['Greater than','Less than','Greater than or equal','Less than or equal'];
+const newRate=()=>({id:uid(),name:'',amount:'10.00',currency:'USD',conditions:[{id:uid(),type:'Weight based',comparison:'Greater than',value:'150',unit:'g'}]});
+const newZ2=(name,countries)=>({id:uid(),name:name||'Standard international',countries:countries||[],mode:'openborder',carrier:'',adjOn:false,adjValue:'10',adjType:'Increase',byType:false,typeAdj:{otp:{type:'Increase',value:'10'},sub:{type:'Decrease',value:'0'},mixed:{type:'Increase',value:'10'}},collOn:false,collRules:[],ownRates:[newRate()]});
+function z2(){if(!S.z2||!S.z2.length){S.z2=[newZ2('Standard international',[...S.markets])];S.z2i=0}if(S.z2i==null||S.z2i>=S.z2.length)S.z2i=0;const z0=S.z2[0];if(!z0.init&&S.markets.length){const taken=new Set(S.z2.slice(1).flatMap(x=>x.countries));z0.countries=[...new Set([...z0.countries,...S.markets.filter(c=>!taken.has(c))])];z0.init=true}S.z2.forEach(z=>{z.countries=z.countries.filter(c=>S.markets.includes(c))});return S.z2[S.z2i]}
+const zoneOf=c=>(S.z2||[]).find(z=>z.countries.includes(c));
+const adjLabel=(type,v)=>(+v||0)===0?'At cost':`${type==='Decrease'?'−':'+'}${+v||0}%`;
+const adjPct=(type,v)=>(type==='Decrease'?-1:1)*(+v||0);
+function zoneSummary(z){if(z.mode!=='openborder')return `Own rates · ${z.ownRates.length} rate${z.ownRates.length===1?'':'s'}`;if(!z.adjOn)return 'OB rates';if(z.byType)return 'OB · by order type';return `OB ${adjLabel(z.adjType,z.adjValue)}`}
+function previewTable(pct,countries){
+  const ms=countries.map(c=>COUNTRIES.find(x=>x.c===c)).filter(Boolean),k=1+(+pct||0)/100;
+  if(!ms.length)return '<p class="muted">Add countries to this zone to see rates.</p>';
+  return `<div class="tbl"><table><thead><tr><th>Country</th>${[1,2,3,4,5,6,7,8].map(w=>`<th class="num">${w} lbs</th>`).join('')}</tr></thead><tbody>${ms.map(m=>`<tr><td>${esc(m.n)}</td>${[1,2,3,4,5,6,7,8].map(w=>`<td class="num">$${((m.b+w*3.15)*k).toFixed(2)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function condRow(z,ri,ci,c){
+  const k=`${ri}:${ci}`,rm=z.ownRates[ri].conditions.length>1?`<button type="button" class="linkbtn" data-zdelcond="${k}" style="float:right">Remove</button>`:'';
+  let body;
+  if(c.type==='Order type')body=`<label class="muted" style="font-size:13px">Order type is</label><select data-zc="${k}:value" aria-label="Order type">${CARTS.map(([v,l])=>`<option value="${v}" ${c.value===v?'selected':''}>${l}</option>`).join('')}</select>`;
+  else if(c.type==='Product collection')body=`<label class="muted" style="font-size:13px">Cart contains products in</label><select data-zc="${k}:value" aria-label="Collection"><option value="">${S.collections.length?'Select collection':'Create a collection below first'}</option>${S.collections.map(x=>`<option value="${x.id}" ${c.value===x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select>`;
+  else{const val=c.type==='Order value',units=val?['USD','EUR','GBP','AUD','CAD']:['g','kg','lbs','oz'];
+    body=`<label class="muted" style="font-size:13px">${val?'Order value threshold':'Weight threshold'}</label><div class="cond3"><select data-zc="${k}:comparison" aria-label="Comparison">${CMP.map(o=>`<option ${c.comparison===o?'selected':''}>${o}</option>`).join('')}</select><input type="number" data-zc="${k}:value" value="${esc(c.value)}" aria-label="Threshold"><select data-zc="${k}:unit" aria-label="Unit">${units.map(o=>`<option ${c.unit===o?'selected':''}>${o}</option>`).join('')}</select></div>`}
+  return `<div class="z2-cond">${rm}<div class="f" style="margin-bottom:8px"><label>Condition type</label><select data-zc="${k}:type" aria-label="Condition type">${COND_TYPES.map(o=>`<option ${c.type===o?'selected':''}>${o}</option>`).join('')}</select></div><div class="f">${body}</div></div>`;
+}
+function rateCard(z,r,ri){
+  return `<div class="z2-rate"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><strong style="font-size:13px">Rate ${ri+1}</strong>${z.ownRates.length>1?`<button type="button" class="linkbtn" data-zdelrate="${ri}">Remove rate</button>`:''}</div>
+   <div class="z2-grid3"><div class="f"><label for="zrn${ri}">Name <span class="opt">(optional)</span></label><input id="zrn${ri}" data-zr="${ri}:name" value="${esc(r.name)}" placeholder="${esc(z.name||'Zone rate name')}"></div>
+   <div class="f"><label for="zra${ri}">Amount</label><input id="zra${ri}" data-zr="${ri}:amount" value="${esc(r.amount)}" placeholder="0.00 for free"></div>
+   <div class="f"><label for="zrc${ri}">Currency</label><select id="zrc${ri}" data-zr="${ri}:currency">${['USD','EUR','GBP','AUD','CAD'].map(c=>`<option ${r.currency===c?'selected':''}>${c}</option>`).join('')}</select></div></div>
+   <h5 style="margin:16px 0 0">Conditions</h5>${r.conditions.map((c,ci)=>condRow(z,ri,ci,c)).join('')}
+   <button type="button" class="btn sec sm" data-zaddcond="${ri}" style="margin-top:10px">+ Add condition</button></div>`;
+}
+P.shipping=()=>{
+  const z=z2();let h='';
+  if(isShopify())h+=`<div class="note warn"><span class="ic">⏸️</span><div><b>Nothing changes in Shopify until go-live.</b> Zones and rates are staged and switched on at launch${S.existing.length?`, and your current setup in ${S.existing.join(', ')} stays as it is`:''}. <span class="tag hold">Held</span></div></div>`;
+  if(isAPI())h+=`<div class="note"><span class="ic">ℹ️</span><div>Your developer gets these rates back from our landed cost API.</div></div>`;
+  h+=`<div class="box" style="margin-top:0"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px"><div><h4 style="margin:0">Shipping zones</h4><p style="margin:2px 0 0">Each zone covers a group of countries with their own rate. Add multiple zones to charge different rates by region.</p></div><button type="button" class="btn sec sm" id="z2add">+ Add zone</button></div>
+   <div class="z2-pills">${S.z2.map((x,i)=>`<div class="z2-pill" data-zsel="${i}" role="button" tabindex="0" aria-pressed="${i===S.z2i}"><span><strong>${esc(x.name||'Zone '+(i+1))}</strong><small>${x.countries.length} ${x.countries.length===1?'country':'countries'} · ${esc(zoneSummary(x))}</small></span>${S.z2.length>1?`<button type="button" class="z2-x" data-zdel="${i}" aria-label="Remove zone">×</button>`:''}</div>`).join('')}</div></div>`;
+  const others=new Set(S.z2.filter(x=>x!==z).flatMap(x=>x.countries));
+  const avail=S.markets.filter(c=>!z.countries.includes(c)&&!others.has(c));
+  const missing=S.markets.filter(c=>!zoneOf(c));
+  const cs=carrierServiceOpts();
+  h+=`<div class="box"><div class="grid"><div class="f"><label for="zname">What would you like to call this rate?</label><input id="zname" data-zf="name" value="${esc(z.name)}"><span class="hint">Shown at checkout for every rate in this zone, unless a rate has its own name</span></div>
+   </div><p class="muted" style="margin:10px 0 0;font-size:13px">Estimated delivery: <strong>${svcEstimate('','',z.countries)}</strong>. OpenBorder picks the carrier for each market.</p>
+   <div class="f" style="margin-top:14px"><label for="zaddc">Countries you’d like to charge this rate</label><select id="zaddc"><option value="">${avail.length?'Add a country…':'All launch markets are in a zone'}</option>${avail.map(c=>`<option value="${c}">${flag(c)} ${esc(CNAME[c])}</option>`).join('')}</select>
+   <div class="z2-chips">${z.countries.map(c=>`<span class="ms-chip">${flag(c)} ${esc(CNAME[c])}<button type="button" data-zcdel="${c}" aria-label="Remove ${esc(CNAME[c])}">×</button></span>`).join('')}</div>
+   ${missing.length?`<div class="note warn"><span class="ic">⚠️</span><div><b>${missing.length} of the launch ${missing.length===1?'market needs':'markets need'} a shipping rate:</b> ${missing.map(c=>esc(CNAME[c])).join(', ')}. Add them to a zone. Every market needs a rate before go-live.</div></div>`:''}</div>
+   <hr class="z2-hr"><h4 style="margin:0">Shipping rate</h4><p>Customers see the configured rates as shipping options.</p>
+   <div class="f"><label>How would you like to calculate rates?</label><div class="seg" style="max-width:560px"><button type="button" data-zmode="openborder" aria-pressed="${z.mode==='openborder'}">Use OpenBorder shipping rates</button><button type="button" data-zmode="own" aria-pressed="${z.mode==='own'}">Customize your own shipping rates</button></div></div>`;
+  if(z.mode==='openborder'){
+    h+=`<div class="z2-inner"><p>OpenBorder’s standard weight-based shipping rates. All rates include taxes and duties at checkout, so customers aren’t charged on delivery.</p><button type="button" class="btn sec sm" id="z2dl">Download rate card</button><hr class="z2-hr">
+     <div class="z2-tog"><div><strong>Price adjustment</strong> <span class="opt muted">(optional)</span><small>Add a markup to increase rates, or reduce them</small></div><label class="sw2"><input type="checkbox" data-zchk="adjOn" ${z.adjOn?'checked':''} aria-label="Price adjustment"><span></span></label></div>`;
+    if(z.adjOn){
+      h+=`<div class="z2-tog"><div><strong>Different adjustment by order type</strong><small>Set one-time purchase, subscription and mixed cart separately</small></div><label class="sw2"><input type="checkbox" data-zchk="byType" ${z.byType?'checked':''} aria-label="By order type"><span></span></label></div>`;
+      if(!z.byType)h+=`<div class="grid" style="margin-top:6px"><div class="f"><label for="zadjv">Value</label><div class="minmax"><input id="zadjv" type="number" data-zf="adjValue" value="${esc(z.adjValue)}" style="width:100%"><span class="muted">%</span></div></div><div class="f"><label for="zadjt">Adjustment type</label><select id="zadjt" data-zf="adjType">${['Increase','Decrease'].map(o=>`<option ${z.adjType===o?'selected':''}>${o}</option>`).join('')}</select></div></div>`;
+      else h+=`<div class="tbl" style="margin-top:6px"><table><thead><tr><th>Order type</th><th>Adjustment type</th><th>Value</th></tr></thead><tbody>${CARTS.map(([v,l])=>`<tr><td>${l}</td><td><select data-zt="${v}:type" aria-label="${l} adjustment type">${['Increase','Decrease'].map(o=>`<option ${z.typeAdj[v].type===o?'selected':''}>${o}</option>`).join('')}</select></td><td><div class="minmax"><input type="number" data-zt="${v}:value" value="${esc(z.typeAdj[v].value)}" aria-label="${l} value"><span class="muted">%</span></div></td></tr>`).join('')}</tbody></table></div>`;
+    }
+    h+=`<div class="z2-tog"><div><strong>Rates for product collections</strong> <span class="opt muted">(optional)</span><small>Override the rate when the cart has products from a collection</small></div><label class="sw2"><input type="checkbox" data-zchk="collOn" ${z.collOn?'checked':''} aria-label="Collection rates"><span></span></label></div>`;
+    if(z.collOn){
+      h+=`<div class="tbl" style="margin-top:6px"><table><thead><tr><th>Collection</th><th>Order type</th><th>Rate</th><th>Value</th><th></th></tr></thead><tbody>${z.collRules.map((r,i)=>`<tr>
+       <td><select data-zcr="${i}:coll" aria-label="Collection"><option value="">Select</option>${S.collections.map(c=>`<option value="${c.id}" ${c.id===r.coll?'selected':''}>${esc(c.name)}</option>`).join('')}</select></td>
+       <td><select data-zcr="${i}:cart" aria-label="Order type"><option value="all" ${r.cart==='all'?'selected':''}>All order types</option>${CARTS.map(([v,l])=>`<option value="${v}" ${r.cart===v?'selected':''}>${l}</option>`).join('')}</select></td>
+       <td><select data-zcr="${i}:action" aria-label="Rate">${['Increase','Decrease','Flat rate','Free shipping'].map(o=>`<option ${r.action===o?'selected':''}>${o}</option>`).join('')}</select></td>
+       <td>${r.action==='Free shipping'?'<span class="muted">n/a</span>':`<div class="minmax">${r.action==='Flat rate'?'<span class="muted">$</span>':''}<input type="number" data-zcr="${i}:value" value="${esc(r.value)}" aria-label="Value">${r.action==='Flat rate'?'':'<span class="muted">%</span>'}</div>`}</td>
+       <td><button type="button" class="btn sec sm" data-zdelcr="${i}" aria-label="Remove">×</button></td></tr>`).join('')||'<tr><td colspan="5" class="muted">No collection rates yet</td></tr>'}</tbody></table></div>
+       <button type="button" class="btn sec sm" id="z2addcr" style="margin-top:8px" ${S.collections.length?'':'disabled'}>+ Add collection rate</button>${S.collections.length?'':' <span class="muted">Create a collection below first.</span>'}`;
+    }
+    h+=`</div>${z.adjOn||z.collOn?`<button type="button" class="btn sec" id="z2prev" style="margin-top:14px">See how your rates look</button>`:''}`;
+  }else{
+    h+=z.ownRates.map((r,ri)=>rateCard(z,r,ri)).join('')+`<button type="button" class="btn sec" id="z2addrate" style="margin-top:12px">+ Add another rate</button>`;
+  }
+  h+=`</div>`;
+  h+=`<h3 class="section-title">Product collections</h3><p class="lede" style="margin-bottom:10px">Group products that need their own rate, then use the collection in a rate condition or a collection rate.</p>`;
+  h+=S.collections.map(c=>`<div class="coll"><div><strong>${esc(c.name)}</strong> <span class="muted">· ${c.products.length} product${c.products.length===1?'':'s'}</span><div class="prods">${c.products.map(p=>`<span>${esc((CATALOG.find(x=>x.id===p)||{}).n||p)}</span>`).join('')}</div></div><div style="display:flex;gap:6px;flex:none"><button class="btn sec sm" data-editcoll="${c.id}">Edit</button><button class="btn sec sm" data-delcoll="${c.id}">Remove</button></div></div>`).join('');
+  h+=`<button class="btn sec" id="addcoll">New collection</button>`;
+  return h;
+};
+function previewModal(){
+  const z=z2();let cart=z.byType?'otp':null;
+  const body=()=>{const pct=z.byType?adjPct(z.typeAdj[cart].type,z.typeAdj[cart].value):(z.adjOn?adjPct(z.adjType,z.adjValue):0);
+    return `${z.byType?`<div class="seg" style="margin-bottom:10px">${CARTS.map(([v,l])=>`<button type="button" data-pv="${v}" aria-pressed="${cart===v}">${l}</button>`).join('')}</div>`:''}
+     <p class="muted" style="margin:0 0 8px">${esc(z.name)} · <span class="tag auto">${pct>0?'+':''}${pct}%</span></p>${previewTable(pct,z.countries)}
+     ${z.collOn&&z.collRules.filter(r=>r.coll).length?`<p class="muted" style="margin-top:10px">Collection rates: ${z.collRules.filter(r=>r.coll).map(r=>`${esc((S.collections.find(c=>c.id===r.coll)||{}).name)} (${r.cart==='all'?'all orders':CART_LABEL[r.cart]}): ${r.action==='Free shipping'?'free':r.action==='Flat rate'?'$'+esc(r.value):(r.action==='Decrease'?'−':'+')+esc(r.value)+'%'}`).join(' · ')}</p>`:''}`};
+  modal(`<h3>How your rates look</h3><div id="pvbody">${body()}</div><button type="button" class="btn sec sm" id="pvdl" style="margin-top:10px">Download</button>`,()=>true,'Done');
+  const root=document.getElementById('modal-root');root.querySelector('.modal').style.width='min(760px,100%)';
+  root.addEventListener('click',e=>{const b=e.target.closest('[data-pv]');if(b){cart=b.dataset.pv;document.getElementById('pvbody').innerHTML=body()}if(e.target.id==='pvdl')toast('Rate preview download started')});
+}
+function z2Payload(){return (S.z2||[]).map(z=>({name:z.name,countries:z.countries,shipping_service:{carrier:'chosen_by_openborder',delivery_estimate:svcEstimate('','',z.countries)},
+  rates:z.mode==='openborder'?{type:'openborder',adjustment:!z.adjOn?null:z.byType?Object.fromEntries(CARTS.map(([v,l])=>[l,adjPct(z.typeAdj[v].type,z.typeAdj[v].value)])):{all_orders:adjPct(z.adjType,z.adjValue)},
+    collection_rates:z.collOn?z.collRules.filter(r=>r.coll).map(r=>({collection:(S.collections.find(c=>c.id===r.coll)||{}).name,order_type:r.cart==='all'?'all':CART_LABEL[r.cart],rate:r.action,value:r.action==='Free shipping'?null:r.value})):[]}
+   :{type:'own',rates:z.ownRates.map(r=>({name:r.name||z.name,amount:r.amount,currency:r.currency,conditions:r.conditions.map(c=>c.type==='Order type'?{type:c.type,is:CART_LABEL[c.value]||c.value}:c.type==='Product collection'?{type:c.type,collection:(S.collections.find(x=>x.id===c.value)||{}).name||null}:{type:c.type,comparison:c.comparison,value:c.value,unit:c.unit})}))}}))}
+
+/* partner shipping rate card */
+const RT_STEPS=['Reading file: 3 tabs found','Mapping tabs to carriers','Normalizing zones: Canada zones 1 to 4 mapped to provinces and territories','Converting weights from kg to lb and currency to USD','Validating against the OpenBorder template'];
+function partnerBox(){
+  let h=`<div class="box"><h4>Partner or 3PL shipping rate card <span class="opt muted">(partner brands only)</span></h4><p>For partner brands like Portless that ship at cost: upload the card as the partner sent it and it’s converted to the OpenBorder template.</p>`;
+  if(S.rt.state==='idle')return h+`<label class="btn sec sm" for="rtfile" style="display:inline-block">Upload partner rate card</label><input class="sr" type="file" id="rtfile" accept=".xlsx,.xls,.csv"></div>`;
+  const n=S.rt.state==='running'?S.rt.i:RT_STEPS.length;
+  h+=`<div class="loc"><span>📎 ${esc(S.rt.file)}</span>${S.rt.state!=='running'?'<button class="btn sec sm" id="rtclear">Remove</button>':''}</div>
+   <ul class="pipeline">${RT_STEPS.map((x,i)=>`<li><span class="s ${i<n?'done':i===n?'run':''}"></span>${esc(x)}</li>`).join('')}</ul>`;
+  if(S.rt.state!=='running')h+=`<h4 style="margin-top:16px">Preview in OpenBorder format</h4><div class="tbl"><table><thead><tr><th>Carrier</th><th>Destination</th><th class="num">Weight</th><th class="num">Rate (USD)</th></tr></thead><tbody>
+    ${[['Asendia US','Canada, Ontario','1 lb','11.40'],['Asendia US','Canada, British Columbia','1 lb','12.85'],['Asendia UK','United Kingdom','2 lb','17.20'],['DHL Express','Australia','3 lb','38.60'],['DHL Express','Germany','3 lb','31.95']].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="num">${r[2]}</td><td class="num">${r[3]}</td></tr>`).join('')}</tbody></table></div>
+    <div class="note warn"><span class="ic">⚠️</span><div>1 thing to check: the DHL Express tab has no rate above 20 kg (44 lb). Orders over that weight won’t get a rate at checkout.</div></div>
+    ${S.rt.state==='published'?`<div class="note ok"><span class="ic">✓</span><div>Published to the rate card generator.</div></div>`:`<button class="btn" id="rtpub">Publish to rate card generator</button>`}`;
+  return h+'</div>';
+}
+
+/* compliance: an agent emails carriers; results become restrictions */
+const RTYPES=['Supply limit (days)','Max quantity per order','Order value cap','Not approved'];
+const skuLabel=r=>r.skus==='all'?'All SKUs':`${r.skus.length} SKU${r.skus.length===1?'':'s'}`;
+P.compliance=()=>{
+  const cs=allCarriers();
+  if(!cs.length)return `<div class="note warn"><span class="ic">⚠️</span><div>Pick carriers on the Fulfillment step first. Compliance goes to each carrier that ships the merchant’s products.</div></div>`;
+  let h='';
+  h+=`<h3 class="section-title">Known restrictions <span class="opt muted">(optional)</span></h3><div class="grid"><div class="f full"><label for="fld_known_restrictions">Notes for Ops</label><textarea id="fld_known_restrictions" data-f="known_restrictions" placeholder="e.g. merchant says Asendia limited them to a 90-day supply in Canada last time">${esc(S.data.known_restrictions||'')}</textarea><span class="hint">For context only. Final sales restrictions come from the carrier’s compliance results.</span></div></div>`;
+  return h;
+};
+function skuModal(r){
+  const sel=new Set(r.skus==='all'?[]:r.skus);
+  modal(`<h3>Products this restriction covers</h3>
+   <div class="seg" style="margin-bottom:10px"><button type="button" id="sk_all" aria-pressed="${r.skus==='all'}">All SKUs</button><button type="button" id="sk_some" aria-pressed="${r.skus!=='all'}">Selected SKUs</button></div>
+   <input id="sk_q" type="search" placeholder="Search products or SKUs" style="width:100%;border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:var(--surface)">
+   <div class="pick" id="sk_list">${CATALOG.map(p=>`<label data-n="${esc((p.n+' '+p.sku).toLowerCase())}"><input type="checkbox" value="${p.id}" ${sel.has(p.id)?'checked':''}>${esc(p.n)}<small>${esc(p.sku)}</small></label>`).join('')}</div>`,
+   m=>{const all=m.querySelector('#sk_all').getAttribute('aria-pressed')==='true';const ps=[...m.querySelectorAll('#sk_list input:checked')].map(i=>i.value);
+     if(!all&&!ps.length){toast('Pick at least one product, or choose All SKUs');return false}r.skus=all?'all':ps});
+  const a=document.getElementById('sk_all'),b=document.getElementById('sk_some');
+  a.onclick=()=>{a.setAttribute('aria-pressed','true');b.setAttribute('aria-pressed','false')};
+  b.onclick=()=>{b.setAttribute('aria-pressed','true');a.setAttribute('aria-pressed','false')};
+  document.querySelectorAll('#sk_list input').forEach(i=>i.onchange=()=>b.onclick());
+  const q=document.getElementById('sk_q');q.oninput=()=>{const v=q.value.toLowerCase();document.querySelectorAll('#sk_list label').forEach(l=>l.hidden=!l.dataset.n.includes(v))};
+}
+
+/* billing */
+P.billing=()=>{
+  const up=(k,title,desc)=>{const n=S.docs[k];return `<div class="up ${n?'has':''}"><strong>${title}</strong><small>${desc}</small>
+   ${n?`<div class="row"><span>📎 ${esc(n)}</span>${DOCTEXT[k]?'':'<small>Re-attach to read it again</small>'}<button class="btn sec sm" data-docclear="${k}">Remove</button></div>`
+     :`<div class="row"><label class="btn sec sm" for="doc_${k}">Upload</label><input class="sr" type="file" id="doc_${k}" data-doc="${k}" accept=".pdf,.xlsx,.xls,.csv,.txt"></div>`}</div>`};
+  const ready=DOCTEXT.msa||DOCTEXT.ratecard,ex=S.extract;let action='';
+  if(sample===null&&(S.docs.msa||S.docs.ratecard))action=`<p class="muted">Automatic fill isn’t available in this view. Enter the fees below.</p>`;
+  else if(ready)action=`<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px"><button class="btn" id="extract" ${ex.state==='running'?'disabled':''}>${ex.state==='running'?'Reading documents…':'Fill again from documents'}</button>${ex.msg?`<span class="muted">${esc(ex.msg)}</span>`:''}</div>`;
+  else if(ex.msg)action=`<p class="muted">${esc(ex.msg)}</p>`;
+  return `<h3 class="section-title">Contract and merchant rate card</h3><div class="uploads">${up('msa','Signed MSA','PDF of the signed contract')}${up('ratecard','Merchant rate card','Fees and shipping rates sent to the merchant (PDF, Excel or CSV)')}</div>${action}
+  <p class="muted" style="margin-top:8px">Fields fill in automatically after upload and are marked Check, with where each value came from.</p>${partnerBox()}`;
+};
+P.billing=()=>`<div class="box"><h4>Team access</h4><p>Invite people who need the admin or fulfillment portal.</p>
+ ${S.users.length?`<div class="loc-list">${S.users.map((u,i)=>`<div class="loc"><span>${esc(u.email)} · ${esc(u.role)}</span><button class="btn sec sm" data-deluser="${i}">Remove</button></div>`).join('')}</div>`:''}
+ <button class="btn sec sm" id="adduser" style="margin-top:10px">Invite user</button>
+ <p style="margin-top:10px;font-size:13px">Users created during onboarding are removed if no first order arrives within 60 days of install.</p></div>`;
+
+/* ---------- extraction ---------- */
+async function readFile(file){
+  const name=file.name.toLowerCase();
+  if(name.endsWith('.pdf')){
+    if(!window.pdfjsLib)throw new Error('pdf');
+    const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;let out='';
+    for(let p=1;p<=Math.min(pdf.numPages,40);p++){const pg=await pdf.getPage(p);const tc=await pg.getTextContent();out+=`\n[Page ${p}]\n`+tc.items.map(i=>i.str).join(' ')}
+    return out;
+  }
+  if(/\.(xlsx|xls|csv)$/.test(name)){if(!window.XLSX)throw new Error('xlsx');const wb=XLSX.read(await file.arrayBuffer());return wb.SheetNames.map(n=>`[Sheet: ${n}]\n`+XLSX.utils.sheet_to_csv(wb.Sheets[n])).join('\n')}
+  return await file.text();
+}
+const FEE_KEYS=['shipping_rates','transaction_fee','contract_term','minimum_platform_fee','min_fee_amount','deferment_fee','deferment_billed_to','fixed_fee_3pl','fixed_fee_amount','ob_bills'];
+async function extract(){
+  if(!sample)return;
+  S.extract={state:'running',msg:''};renderMain();
+  const cap=t=>t.length>60000?t.slice(0,60000)+'\n[truncated]':t;
+  const prompt=`You extract billing terms and shipping rates for an OpenBorder merchant from its signed MSA and merchant rate card (fees sheet). Use only what the documents state. Never guess.
+Return JSON only with exactly these keys:
+{"transaction_fee": string|null (e.g. "3% revenue share"),
+ "contract_term": string|null,
+ "minimum_platform_fee": "Yes"|"No"|null,
+ "min_fee_amount": string|null (e.g. "£250/month"),
+ "deferment_fee": string|null (e.g. "5% on duty and tax value"),
+ "deferment_billed_to": "Brand"|"3PL"|null,
+ "fixed_fee_3pl": "Yes"|"No"|null,
+ "fixed_fee_amount": string|null,
+ "shipping_rates": string|null (one line summarizing shipping pricing on the rate card: carrier basis, markup, weight range, markets),
+ "ob_bills": array of any of ["Platform fee","Shipping","Tax","Duties","Deferment fee"] that OpenBorder invoices the merchant for, or null,
+ "sources": object mapping each non-null key to a short note of where it was found, e.g. "MSA page 3"}
+
+MSA:
+<<<
+${cap(DOCTEXT.msa)||'(not provided)'}
+>>>
+
+MERCHANT RATE CARD:
+<<<
+${cap(DOCTEXT.ratecard)||'(not provided)'}
+>>>`;
+  try{
+    const r=await sample.json(prompt,{modelTier:'default'});let filled=0,kept=0;
+    FEE_KEYS.forEach(k=>{
+      let v=r[k];if(v==null||v==='')return;
+      if(k==='ob_bills'){if(!Array.isArray(v))return;v=FIELD_DEF.ob_bills.o.filter(o=>v.includes(o)).join(', ');if(!v)return}
+      v=String(v);if(String(S.data[k]||'').trim()){kept++;return}
+      S.data[k]=v;S.nc[k]=true;S.src[k]='From '+((r.sources&&r.sources[k])||'uploaded documents');filled++;
+    });
+    S.extract={state:'done',msg:filled?`Filled ${filled} field${filled===1?'':'s'}${kept?`, kept ${kept} already entered`:''}. Review each below.`:'Nothing to fill: the documents didn’t state these fees, or the fields already had values.'};
+  }catch(e){
+    const m={not_granted:'Automatic fill was declined. Enter the fees below.',rate_limited:'Too many requests right now. Try again in a minute.'};
+    S.extract={state:'error',msg:m[e&&e.code]||'Couldn’t read the fees from these documents. Enter them below.'};
+  }
+  save();render();
+}
+
+/* ---------- tasks + payload ---------- */
+function buildTasks(){
+  const d=S.data,api=isAPI(),T=(t,s,n)=>({task:t,status:s,note:n}),out=[];
+  const tm=d.test_market?CNAME[d.test_market]:'test market not set';
+  if(!d.channel)out.push(T('Set up channel','manual','Channel not chosen'));
+  else if(api)out.push(T('Create API merchant and issue keys','auto',d.api_sandbox==='Yes'?'Sandbox first, then production':'Production keys'));
+  else out.push(T('Install carrier app on Shopify','auto',d.shopify_store||'Needs store URL'));
+  out.push(T(`Activate ${tm} first for TAM’s test order`,'auto','Other markets switch on after it passes'));
+  if(S.existing.length)out.push(T('Leave existing markets as they are','hold',S.existing.join(', ')));
+  out.push(T('Create locations and brand','auto',`${S.locs.length+1} location${S.locs.length?'s':''}`));
+  out.push(T('Routing rules','auto',[`${primaryName()}: ${primaryMode()==='rest'?'all other markets':primaryMarkets().join(', ')||'none'}`,...S.locs.map(l=>`${l.name}: ${(l.markets||[]).join(', ')}`)].join(' · ')));
+  out.push(T('Decide fulfillment method','auto',[d.label_flow,d.wms,allCarriers().length?'own accounts: '+allCarriers().join(', '):''].filter(Boolean).join(' · ')));
+  const zs=S.z2||[];
+  out.push(T('Shipping zones and rates','auto',`${zs.length} zone${zs.length===1?'':'s'}: `+zs.map(z=>`${z.name} (${z.countries.join(', ')||'no countries'}, ${zoneSummary(z)})`).join(' · ')));
+  if(isShopify())out.push(T('Tax-inclusive countries, markets and catalogs','hold','Applied at go-live only'));
+  out.push(T('Rate card and fees','auto','Linked from the signed MSA and rate card'));
+  if(S.rt.file)out.push(T('Partner shipping rate card','auto',S.rt.state==='published'?'Published to rate card generator':'Uploaded, not published'));
+  out.push(T('Checkout costs','auto',d.customer_pays?'Customer pays: '+d.customer_pays:'Needs customer costs'));
+  out.push(T('Billing configuration','auto','From the signed MSA and rate card'));
+  const cs=allCarriers();
+  out.push(T('Compliance emails to carriers','auto',cs.length?'Agent emails '+cs.join(', '):'No carriers picked'));
+  out.push(T('Sales restrictions','auto','Set from carrier compliance results'));
+  return out;
+}
+const d0=()=>S.data;
+function buildPayload(){
+  const fields={};STEPS.forEach(st=>visFields(st.id).forEach(f=>{const v=S.data[f.id];fields[f.id]=f.type==='checks'?list(v):(v||null)}));
+  return {
+    event:'merchant_onboarding.submitted',submitted_at:new Date().toISOString(),
+    intake_prefill:intakePrefill(),
+    channel:isShopify()?'shopify':d0().channel==='BigCommerce'?'bigcommerce':isAPI()?'direct_api':null,install_carrier_app:isShopify(),
+    merchant_answers:fields,merchant_contacts:S.contacts,
+    markets:{existing_do_not_override:S.existing,launch:S.markets,test_order_market:S.data.test_market||null,tax_inclusive_held_until_go_live:isShopify()?S.markets.filter(c=>COUNTRIES.find(x=>x.c===c).ti):[]},
+    own_carrier_accounts:allCarriers(),
+    routing:{primary:{name:primaryName(),markets:primaryMode()==='rest'?'all_unassigned':primaryMarkets()},additional_locations:S.locs,by_market:Object.fromEntries(S.markets.map(c=>[c,routeInfo(c)]))},
+    shipping_zones:z2Payload(),
+    product_collections:S.collections.map(c=>({name:c.name,skus:c.products.map(p=>(CATALOG.find(x=>x.id===p)||{}).sku)})),
+    users:S.users,
+    backend_links:{msa:'linked automatically',rate_card:'linked automatically'},
+    bot_tasks:buildTasks()
+  };
+}
+
+const STATUS={auto:['auto','Automated'],manual:['manual','Ops'],hold:['hold','Held'],later:['later','Later']};
+function nextSteps(){
+  const d=S.data,tm=d.test_market?CNAME[d.test_market]:'your first market',n=S.markets.length;
+  const st=[{t:'Share your details',who:'You',d:'Your answers go to your onboarding team.'},
+   {t:'We verify your business and review your products',who:'OpenBorder',d:'We check your DUNS number, classify your products and confirm them with our carriers.'}];
+  if(isAPI())st.push({t:'Connect your site to our API',who:'You',d:d.api_sandbox==='Yes'?'Your developer gets test keys first, then live keys before launch.':'Your developer gets API keys and connects your site.'});
+  else if(d.channel==='BigCommerce')st.push({t:'Connect your BigCommerce store',who:'Together',d:'We send the connection steps. Your onboarding team can set up markets and shipping with you on a 15-minute call, or do it for you.'});
+  else st.push({t:'Install the OpenBorder app on Shopify',who:'You',d:'We’ll send the install link. Your onboarding team can set up markets and shipping with you on a 15-minute call, or do it for you.'});
+  const lf=d.label_flow;
+  if(lf==='In the OpenBorder portal')st.push({t:'Learn to print labels and book pickups',who:'You',d:'A short guide to the OpenBorder portal, plus a walkthrough if you want one.'});
+  else if(lf==='Through our warehouse’s WMS or shipping software'){const w=d.wms&&d.wms!=='None'?(d.wms==='Other'?d.wms_other||'the WMS':d.wms):'the shipping software';
+    if(d.fc_operator==='A 3PL')st.push({t:`We set up ${d.threepl_name||'your 3PL'} to print OpenBorder labels`,who:'OpenBorder',d:`We work with your 3PL directly to connect ${w}, and loop you in only if they need your approval.`});
+    else st.push({t:`Connect ${w} to OpenBorder labels`,who:'Together',d:'We set up label printing and check it with a sample label.'});}
+  else if(lf==='With our own carrier account')st.push({t:'Share your carrier account details',who:'You',d:`We’ll send a secure link for your ${list(d.own_carriers).join(', ')||'carrier'} account details.`});
+  else st.push({t:'Set up label printing',who:'Together',d:'We confirm how you’ll print labels for international orders.'});
+  st.push({t:`Place a test order in ${tm}`,who:'Together',d:'We switch this market on first and check the order end to end.'});
+  st.push({t:'Go live',who:'OpenBorder',d:`We switch on ${n?n+' market'+(n===1?'':'s'):'your markets'} and you start selling.`});
+  return st;
+}
+function trackerHTML(done){
+  return `<ol class="trk">${nextSteps().map((x,i)=>{const state=!done?'todo':i===0?'done':i===1?'now':'todo';return `<li class="${state}"><span class="trk-dot">${state==='done'?'✓':i+1}</span><div><strong>${esc(x.t)}</strong> <span class="tag ${x.who==='You'?'tam':x.who==='OpenBorder'?'auto':'later'}">${esc(x.who)}</span>${state==='now'?' <span class="tag hold">In progress</span>':''}<small>${esc(x.d)}</small></div></li>`}).join('')}</ol>`;
+}
+function intakePrefill(){
+  const d=S.data,signer=S.contacts.find(c=>c.role==='Signer / decision maker')||S.contacts[0]||{},mk=S.contacts.find(c=>c.role==='Marketing')||{};
+  const origin={'United States':'US','United Kingdom':'UK','Canada':'CA','Australia':'AU','Netherlands':'NL','Mexico':'MX'}[d.fc_country]||'';
+  const op={'Our own warehouse':'In-house','A 3PL':'3PL','An OpenBorder fulfillment center':'OpenBorder FC'}[d.fc_operator]||'';
+  const lab={'In the OpenBorder portal':'OpenBorder generates labels','Through our warehouse’s WMS or shipping software':d.fc_operator==='A 3PL'?'3PL requests labels from OpenBorder':'OpenBorder generates labels','With our own carrier account':'Merchant uses own carrier account'}[d.label_flow]||'';
+  const cp=list(d.customer_pays),has=x=>cp.includes(x);
+  const cc=has('Shipping')&&has('Tax')&&has('Duties')?'Shipping, tax, duty':has('Shipping')&&has('Tax')?'Shipping and tax':has('Tax')&&has('Duties')?'Tax and duty':has('Shipping')&&cp.length===1?'Shipping only':'';
+  let wms=d.wms||'',wmsOther=d.wms_other||'';
+  if(wms==='None'){wms=d.label_flow==='In the OpenBorder portal'?'OpenBorder portal':'Other';wmsOther=wms==='Other'?'None':''}
+  const plat=isShopify()?'Shopify':d.channel==='BigCommerce'?'BigCommerce':['BigCommerce','WooCommerce'].includes(d.api_platform)?d.api_platform:isAPI()?'Direct API':'';
+  const o={customer_name:d.company_name,legal_name:d.legal_name,url:[d.website,d.channel==='BigCommerce'?d.bc_store:''].filter(Boolean).join(', '),shopify_store:isShopify()?d.shopify_store:'',platform:plat,contact_timezone:d.contact_timezone,
+    signer_name:signer.name,signer_email:signer.email,signer_role:signer.role,marketing_name:mk.name,marketing_email:mk.email,
+    xbd_origin:origin,fc_operator:op,threepl_name:d.threepl_name,ob_fc:d.ob_fc,
+    fc_contact_name:d.fc_contact_name,fc_contact_role:d.fc_contact_role,fc_contact_email:d.fc_contact_email,fc_contact_phone:d.fc_contact_phone,
+    fc_address1:d.fc_address1,fc_address2:d.fc_address2,fc_city:d.fc_city,fc_state:d.fc_state,fc_country:d.fc_country,fc_postal:d.fc_postal,
+    wms,wms_other:wmsOther,label_flow:lab,wms_notes:[d.label_flow?'Merchant wants labels: '+d.label_flow:'',allCarriers().length?'Own carrier accounts: '+allCarriers().join(', '):''].filter(Boolean).join('. '),
+    erp:d.erp==='Other'?d.erp_other:d.erp,subscription_provider:d.subscription_provider==='Other'?d.subscription_other:d.subscription_provider,subscriptions_intl:d.subscriptions_intl,
+    daily_volume:d.daily_volume,duns:d.duns,tsa_status:d.tsa_verified?(d.tsa_verified==='Yes'?'Verified (merchant said)':d.tsa_verified==='No'?'Not verified (merchant said)':'Merchant not sure'):'',live_intl:d.live_intl,checkout_costs:cc,
+    major_markets:[S.markets.length?'Launch with OpenBorder: '+S.markets.map(c=>CNAME[c]).join(', '):'',S.existing.length?'Sells today: '+S.existing.join(', '):'',d.test_market?'Test order first in '+CNAME[d.test_market]:''].filter(Boolean).join('. '),
+    product_category:d.product_category,known_restrictions:d.known_restrictions,shipping_notes:d.checkout_notes,billing_contact:d.billing_email};
+  Object.keys(o).forEach(k=>{if(o[k]==null||o[k]==='')delete o[k]});
+  return o;
+}
+P.review=()=>{
+  const missing=STEPS.slice(0,-1).filter(s=>!stepDone(s.id)).map(s=>s.t),d=S.data;
+  let h=missing.length?`<div class="note warn"><span class="ic">⚠️</span><div><b>Still to finish:</b> ${missing.map(esc).join(', ')}.</div></div>`:'';
+  const rows=[['Company',d.company_name],['Products',d.product_category],['Store',isShopify()?d.shopify_store:d.channel==='BigCommerce'?'BigCommerce: '+(d.bc_store||''):isAPI()?'Custom site or API':''],['Team',S.contacts.filter(c=>c.name).map(c=>`${c.name} (${c.role||'no role'})`).join(', ')],
+   ['Ships from',[primaryName(),d.fc_city,d.fc_country].filter(Boolean).join(', ')],['Labels',d.label_flow],
+   ['Sell today in',S.existing.join(', ')||(d.live_intl==='No'?'Not selling internationally yet':'')],['Launch with OpenBorder',S.markets.map(c=>CNAME[c]).join(', ')],['Test first in',d.test_market?CNAME[d.test_market]:''],
+   ['Customers pay',d.customer_pays],['Shipping options',(S.z2||[]).map(z=>z.name).filter(Boolean).join(', ')],['Invoices to',d.billing_email]];
+  h+=`<div class="review"><dl>${rows.map(([k,v])=>`<dt>${k}</dt><dd>${v?esc(v):'<span class="missing">Not provided</span>'}</dd>`).join('')}</dl></div>`;
+  if((S.subm||{}).state==='error')h=`<div class="note warn"><span class="ic">⚠️</span><div>${esc(S.subm.msg)}</div></div>`+h;
+  h+=`<h3 class="section-title">What happens next</h3>${trackerHTML(false)}`;
+  return h;
+};
+
+/* ---------- submit to OpenBorder (Netlify function emails operations@ from the onboarding bot) ---------- */
+const SUBMIT_URL='/.netlify/functions/submit-onboarding';
+const ACCESS_CODE=new URLSearchParams(location.search).get('code')||'';
+function onboardingEmail(){
+  const d=S.data,L=[];
+  L.push(`Merchant onboarding submitted by ${d.company_name||'a merchant'}`,'');
+  STEPS.slice(0,-1).forEach(st=>{
+    const fs=visFields(st.id).filter(f=>String(d[f.id]||'').trim());
+    const extra=[];
+    if(st.id==='business'&&S.contacts.length)S.contacts.filter(c=>c.name||c.email).forEach(c=>extra.push(`Contact: ${c.name}${c.email?' <'+c.email+'>':''}${c.phone?', '+c.phone:''}${c.role?' ('+c.role+')':''}`));
+    if(st.id==='channel'&&d.channel)extra.unshift('Connects through: '+(d.channel==='Direct API (landed cost)'?'Custom site or API':d.channel));
+    if(st.id==='markets'){if(S.existing.length)extra.push('Sells today in: '+S.existing.join(', '));if(S.markets.length)extra.push('Launch with OpenBorder: '+S.markets.map(c=>CNAME[c]).join(', '));if(d.test_market)extra.push('Test order first in: '+CNAME[d.test_market]);}
+    if(st.id==='fc'&&S.markets.length)S.markets.forEach(c=>{const r=routeInfo(c);extra.push(`Routing: ${CNAME[c]} → ${r?r.name:'no location'}`)});
+    if(st.id==='fc'&&S.locs.length)S.locs.forEach(l=>extra.push(`Other location: ${l.name}, ${[l.address1,l.city,l.state,l.postal,l.country].filter(Boolean).join(', ')}`));
+    if(st.id==='shipping')(S.z2||[]).forEach(z=>extra.push(`Zone "${z.name}": ${z.countries.map(c=>CNAME[c]).join(', ')||'no countries'} · ${zoneSummary(z)}`));
+    if(st.id==='shipping'&&S.collections.length)S.collections.forEach(c=>extra.push(`Collection "${c.name}": ${c.products.length} products`));
+    if(st.id==='billing'&&S.users.length)S.users.forEach(u=>extra.push(`Invite: ${u.email} (${u.role})`));
+    if(!fs.length&&!extra.length)return;
+    L.push(st.t.toUpperCase());
+    extra.forEach(x=>L.push('- '+x));
+    fs.forEach(f=>L.push(`- ${f.l}: ${d[f.id]}`));
+    L.push('');
+  });
+  L.push('Attached: onboarding.json (full submission) and intake-prefill.json (load into the intake form).');
+  return {subject:`Merchant onboarding: ${d.company_name||'New merchant'}${d.test_market?' (test in '+CNAME[d.test_market]+')':''}`,body:L.join('\n')};
+}
+async function submitOnboarding(){
+  S.subm={state:'sending'};render();
+  const e=onboardingEmail();
+  try{
+    const res=await fetch(SUBMIT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subject:e.subject,body:e.body,payload:buildPayload(),accessCode:ACCESS_CODE,website2:''})});
+    const out=await res.json().catch(()=>({}));
+    if(!res.ok)throw new Error(out.error||('HTTP '+res.status));
+    S.subm={state:'sent',at:new Date().toISOString()};S.launched=true;save();render();window.scrollTo({top:0});
+  }catch(err){
+    S.subm={state:'error',msg:'We couldn’t send your answers ('+(err.message||'network error')+'). Please try again in a minute. Your answers are saved in this browser.'};save();render();
+  }
+}
+
+/* ---------- render ---------- */
+function renderMain(){
+  const el=document.getElementById('main');
+  if(S.launched){
+    el.innerHTML=`<div class="hero-done"><h1>Thanks${S.data.company_name?', '+esc(S.data.company_name):''}. We’ve got everything.</h1><p>Your onboarding team has your details. Here’s where you are and what’s next. We’ll email you at each step, and you can come back here any time.</p></div>
+    <div class="panel"><h3 class="section-title" style="border-top:0;padding-top:0;margin-top:0">Your onboarding</h3>${trackerHTML(true)}
+     <div class="box"><h4>Need a hand?</h4><p>Book a call with your onboarding team at any point, or reply to any of our emails.</p><button class="btn sec sm" id="bookcall">Book a call</button></div>
+     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px"><button class="btn sec" id="unlaunch">Edit my answers</button></div>
+</div>`;return;
+  }
+  const s=STEPS[S.step],last=S.step===STEPS.length-1;
+  let h=`<div class="panel"><p class="kicker">Step ${S.step+1} of ${STEPS.length}</p><h1>${esc(s.t)}</h1><p class="lede">${esc(s.lede)}</p>`;
+  h+=(TOP[s.id]?TOP[s.id]():'')+renderFields(F[s.id]||[])+(P[s.id]?P[s.id]():'');
+  const ok=STEPS.slice(0,-1).every(x=>stepDone(x.id));
+  h+=`<div class="actions"><button class="btn sec" data-go="${Math.max(0,S.step-1)}" ${S.step===0?'disabled':''}>Back</button>${last?`<button class="btn launch" id="launch" ${ok&&(S.subm||{}).state!=='sending'?'':'disabled'}>${(S.subm||{}).state==='sending'?'Submitting…':'Submit to OpenBorder'}</button>`:`<button class="btn" data-go="${S.step+1}">Continue</button>`}</div></div>`;
+  el.innerHTML=h;
+}
+function render(){renderSide();renderMain()}
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2200)}
+function modal(html,onSave,saveLabel){
+  const r=document.getElementById('modal-root');
+  r.innerHTML=`<div class="modal-bg"><div class="card modal" role="dialog" aria-modal="true">${html}<div class="actions" style="margin-top:18px;padding-top:14px"><button class="btn sec" id="mcancel">Cancel</button><button class="btn" id="msave">${saveLabel||'Save'}</button></div></div></div>`;
+  r.querySelector('input,select')?.focus();
+  r.querySelector('#mcancel').onclick=()=>r.innerHTML='';
+  r.querySelector('.modal-bg').onclick=e=>{if(e.target.classList.contains('modal-bg'))r.innerHTML=''};
+  r.querySelector('#msave').onclick=()=>{if(onSave(r)!==false){r.innerHTML='';save();render()}};
+}
+function collModal(c){
+  const sel=new Set(c?c.products:[]);
+  modal(`<h3>${c?'Edit collection':'New collection'}</h3><div class="f"><label for="cl_name">Collection name</label><input id="cl_name" value="${esc(c?c.name:'')}" placeholder="e.g. Heavy tubs"></div>
+   <div class="f" style="margin-top:12px"><label for="cl_q">Products</label><input id="cl_q" type="search" placeholder="Search products or SKUs">
+   <div class="pick" id="cl_list">${CATALOG.map(p=>`<label data-n="${esc((p.n+' '+p.sku).toLowerCase())}"><input type="checkbox" value="${p.id}" ${sel.has(p.id)?'checked':''}>${esc(p.n)}<small>${esc(p.sku)} · ${p.w} lb</small></label>`).join('')}</div>
+   <span class="hint">${isAPI()?'From the merchant’s product feed':'Synced from Shopify'}</span></div>`,
+   r=>{const n=r.querySelector('#cl_name').value.trim(),ps=[...r.querySelectorAll('#cl_list input:checked')].map(i=>i.value);
+     if(!n){r.querySelector('#cl_name').focus();return false}if(!ps.length){toast('Pick at least one product');return false}
+     if(c){c.name=n;c.products=ps}else S.collections.push({id:uid(),name:n,products:ps})},c?'Save':'Create collection');
+  const q=document.getElementById('cl_q');q.oninput=()=>{const v=q.value.toLowerCase();document.querySelectorAll('#cl_list label').forEach(l=>l.hidden=!l.dataset.n.includes(v))};
+}
+
+/* ---------- pipelines ---------- */
+function runRT(file){S.rt={state:'running',i:0,file};render();const tick=()=>{S.rt.i++;if(S.rt.i>=RT_STEPS.length){S.rt.state='ready';save();render();return}render();setTimeout(tick,550)};setTimeout(tick,550)}
+
+/* ---------- events ---------- */
+const findSvc=id=>S.services.find(s=>s.id===id);
+const findRule=key=>{const [a,b]=key.split(':');const z=S.zones.find(x=>x.id===a);return z&&z.rules.find(r=>r.id===b)};
+const findOv=key=>{const [a,b]=key.split(':');const s=findSvc(a);return s&&s.overrides.find(r=>r.id===b)};
+document.addEventListener('click',e=>{
+  const t=e.target.closest('button');if(!t)return;
+  const d=t.dataset;
+  if(d.go!==undefined){S.step=+d.go;save();render();window.scrollTo({top:0});return}
+  if(d.seg){S.data[d.seg]=d.v;if(d.seg==='live_intl'&&d.v==='No')S.existing=[];save();render();return}
+  if(d.chk){const k=d.chk,o=FIELD_DEF[k].o,cur=list(S.data[k]);const next=cur.includes(d.v)?cur.filter(x=>x!==d.v):[...cur,d.v];S.data[k]=o.filter(x=>next.includes(x)).join(', ');delete S.nc[k];save();render();return}
+  if(d.chan){S.data.channel=d.chan;save();render();return}
+  if(d.ok){delete S.nc[d.ok];save();render();return}
+  if(d.skus){skuModal(S.comp.restrictions.find(r=>r.id===d.skus));return}
+  if(d.delrs){S.comp.restrictions=S.comp.restrictions.filter(r=>r.id!==d.delrs);save();render();return}
+  if(d.msdel){const cfg=msCfg(d.msdel);cfg.set(cfg.get().filter(x=>x!==d.v));msRefresh(d.msdel);const ls=document.querySelector(`[data-mslist="${d.msdel}"]`);if(!ls||ls.hidden)msClose(d.msdel);return}
+  if(d.delloc){S.locs.splice(+d.delloc,1);save();render();return}
+  if(d.editloc){locModal(+d.editloc);return}
+  if(d.route){S.data.fc_routing=d.route;save();render();return}
+  if(d.pm){const c=d.pm,cur=primaryMarkets();S.data.fc_route_markets=(cur.includes(c)?cur.filter(x=>x!==c):[...cur,c]).join(', ');save();render();return}
+  if(d.deluser){S.users.splice(+d.deluser,1);save();render();return}
+  if(d.delct){S.contacts.splice(+d.delct,1);save();render();return}
+  if(d.delsvc){if(S.services.length<2){toast('Keep at least one service');return}S.services=S.services.filter(s=>s.id!==d.delsvc);S.ship.custom.forEach(r=>{if(r.svc===d.delsvc)r.svc=S.services[0].id});save();render();return}
+  if(d.zdel!==undefined){S.z2.splice(+d.zdel,1);if(S.z2i>=S.z2.length)S.z2i=S.z2.length-1;save();render();return}
+  if(t.closest('[data-zsel]')&&!d.zdel){S.z2i=+t.closest('[data-zsel]').dataset.zsel;save();render();return}
+  if(d.zmode){z2().mode=d.zmode;save();render();return}
+  if(d.zcdel){const z=z2();z.countries=z.countries.filter(c=>c!==d.zcdel);save();render();return}
+  if(d.zdelrate!==undefined){z2().ownRates.splice(+d.zdelrate,1);save();render();return}
+  if(d.zaddcond!==undefined){z2().ownRates[+d.zaddcond].conditions.push({id:uid(),type:'Order type',comparison:'Greater than',value:'otp',unit:''});save();render();return}
+  if(d.zdelcond){const [a,b]=d.zdelcond.split(':').map(Number);z2().ownRates[a].conditions.splice(b,1);save();render();return}
+  if(d.zdelcr!==undefined){z2().collRules.splice(+d.zdelcr,1);save();render();return}
+  if(d.pcart){S.ship.previewCart=d.pcart;save();render();return}
+  if(d.delcr){S.ship.collRates=S.ship.collRates.filter(r=>r.id!==d.delcr);save();render();return}
+  if(d.delcu){S.ship.custom=S.ship.custom.filter(r=>r.id!==d.delcu);save();render();return}
+  if(d.zmode){const [a,b]=d.zmode.split(':');S.zones.find(x=>x.id===a).mode=b;save();render();return}
+  if(d.delzone){S.zones=S.zones.filter(z=>z.id!==d.delzone);save();render();return}
+  if(d.delrule){const [a,b]=d.delrule.split(':');const z=S.zones.find(x=>x.id===a);z.rules=z.rules.filter(r=>r.id!==b);save();render();return}
+  if(d.addov){findSvc(d.addov).overrides.push({id:uid(),market:'',name:'',carrier:''});save();render();return}
+  if(d.delov){const [a,b]=d.delov.split(':');const s=findSvc(a);s.overrides=s.overrides.filter(r=>r.id!==b);save();render();return}
+  if(d.editcoll){collModal(S.collections.find(c=>c.id===d.editcoll));return}
+  if(d.delcoll){S.collections=S.collections.filter(c=>c.id!==d.delcoll);S.ship.collRates.forEach(r=>{if(r.coll===d.delcoll)r.coll=''});S.ship.custom.forEach(r=>{if(r.coll===d.delcoll)r.coll=''});save();render();return}
+  if(d.docclear){S.docs[d.docclear]='';DOCTEXT[d.docclear]='';S.extract={state:'idle',msg:''};save();render();return}
+  switch(t.id){
+    case 'reset':S=blank();DOCTEXT.msa='';DOCTEXT.ratecard='';save();render();toast('Onboarding reset');break;
+    case 'addct':S.contacts.push({name:'',email:'',phone:'',role:''});save();render();break;
+    case 'addsvc':S.services.push({id:uid(),name:'',carrier:'',sla:'',overrides:[]});save();render();break;
+    case 'z2add':{const left=S.markets.filter(c=>!zoneOf(c));S.z2.push(newZ2('Zone '+(S.z2.length+1),left));S.z2i=S.z2.length-1;save();render();break}
+    case 'z2addrate':z2().ownRates.push(newRate());save();render();break;
+    case 'z2addcr':z2().collRules.push({id:uid(),coll:S.collections[0].id,cart:'all',action:'Free shipping',value:''});save();render();break;
+    case 'z2prev':previewModal();break;
+    case 'z2dl':toast('Rate card download started');break;
+    case 'addcu':S.ship.custom.push({id:uid(),zone:'all',svc:S.services[0].id,cart:'all',coll:'',cond:'Weight (lb)',min:'0',max:'',price:'',name:''});save();render();break;
+    case 'addcoll':collModal(null);break;
+    case 'extract':extract();break;
+    case 'rtclear':S.rt={state:'idle',file:''};save();render();break;
+    case 'rtpub':S.rt.state='published';save();render();toast('Rate card published');break;
+    case 'addrs':{const cs=allCarriers();S.comp.restrictions.push({id:uid(),carrier:cs[0]||'',market:'all',type:RTYPES[0],value:'',skus:'all'});save();render();break}
+    case 'launch':submitOnboarding();break;
+    case 'bookcall':toast('Opens your onboarding team’s calendar');break;
+    case 'copyprefill':try{navigator.clipboard.writeText(JSON.stringify(buildPayload(),null,2));toast('Copied. Paste it into the intake form.')}catch(err){toast('Copy failed')}break;
+    case 'unlaunch':S.launched=false;save();render();break;
+    case 'addloc':locModal(null);break;
+    case 'adduser':modal(`<h3>Invite user</h3><div class="grid">
+      <div class="f full"><label for="mu_email">Email</label><input id="mu_email" type="email"></div>
+      <div class="f full"><label for="mu_role">Role</label><select id="mu_role"><option>Operations (fulfillment portal only)</option><option>Admin (full access)</option></select></div></div>`,r=>{const em=r.querySelector('#mu_email').value.trim();if(!em.includes('@')){r.querySelector('#mu_email').focus();return false}S.users.push({email:em,role:r.querySelector('#mu_role').value})},'Send invite');break;
+  }
+});
+document.addEventListener('input',e=>{
+  const t=e.target,d=t.dataset;
+  if(d.msq){msFilter(d.msq,t.value);return}
+  if(d.f&&!d.rr){S.data[d.f]=t.value;delete S.nc[d.f];save();renderSide()}
+  if(d.ct!==undefined&&t.tagName==='INPUT'){S.contacts[+d.ct][d.k]=t.value;save();renderSide()}
+  if(d.svcf&&t.tagName==='INPUT'){findSvc(d.svcf)[d.k]=t.value;save();renderSide()}
+  if(d.zf&&t.tagName==='INPUT'){z2()[d.zf]=t.value;save()}
+  if(d.zt&&t.tagName==='INPUT'){const [a,b]=d.zt.split(':');z2().typeAdj[a][b]=t.value;save()}
+  if(d.zr&&t.tagName==='INPUT'){const [a,b]=d.zr.split(':');z2().ownRates[+a][b]=t.value;save();renderSide()}
+  if(d.zc&&t.tagName==='INPUT'){const [a,b,c]=d.zc.split(':');z2().ownRates[+a].conditions[+b][c]=t.value;save()}
+  if(d.zcr&&t.tagName==='INPUT'){const [a,b]=d.zcr.split(':');z2().collRules[+a][b]=t.value;save()}
+  if(d.cr&&t.tagName==='INPUT'){S.ship.collRates.find(r=>r.id===d.cr)[d.k]=t.value;save()}
+  if(d.cu&&t.tagName==='INPUT'){S.ship.custom.find(r=>r.id===d.cu)[d.k]=t.value;save()}
+  if(d.zmk){const [a,b]=d.zmk.split(':');obCfg(S.zones.find(x=>x.id===a),b)[d.k]=t.value;save()}
+  if(d.rule&&t.tagName==='INPUT'){findRule(d.rule)[d.k]=t.value;save()}
+  if(d.ov&&t.tagName==='INPUT'){findOv(d.ov)[d.k]=t.value;save()}
+  if(d.rs&&t.tagName==='INPUT'){S.comp.restrictions.find(x=>x.id===d.rs)[d.k]=t.value;save()}
+});
+document.addEventListener('change',async e=>{
+  const t=e.target,d=t.dataset;
+  if(d.ct!==undefined&&t.tagName==='SELECT'){S.contacts[+d.ct].role=t.value;save();render();return}
+  if(d.svcf&&t.tagName==='SELECT'){findSvc(d.svcf)[d.k]=t.value;save();render();return}
+  if(t.id==='zaddc'&&t.value){z2().countries.push(t.value);save();render();return}
+  if(d.zchk){z2()[d.zchk]=t.checked;save();render();return}
+  if(d.zf&&t.tagName==='SELECT'){const z=z2();z[d.zf]=t.value;if(d.zf==='carrier')z.service=t.value?(CARRIER_SERVICES[t.value]||['Standard'])[0]:'';save();render();return}
+  if(d.zt&&t.tagName==='SELECT'){const [a,b]=d.zt.split(':');z2().typeAdj[a][b]=t.value;save();render();return}
+  if(d.zr&&t.tagName==='SELECT'){const [a,b]=d.zr.split(':');const r=z2().ownRates[+a];r[b]=t.value;if(b==='carrier')r.service=t.value?(CARRIER_SERVICES[t.value]||['Standard'])[0]:'';save();render();return}
+  if(d.zc&&t.tagName==='SELECT'){const [a,b,c]=d.zc.split(':');const cd=z2().ownRates[+a].conditions[+b];cd[c]=t.value;if(c==='type'){cd.comparison='Greater than';cd.value=t.value==='Order type'?'otp':t.value==='Product collection'?'':t.value==='Order value'?'100':'150';cd.unit=t.value==='Order value'?'USD':t.value==='Weight based'?'g':''}save();render();return}
+  if(d.zcr&&t.tagName==='SELECT'){const [a,b]=d.zcr.split(':');z2().collRules[+a][b]=t.value;save();render();return}
+  if(d.cu&&t.tagName==='SELECT'){S.ship.custom.find(r=>r.id===d.cu)[d.k]=t.value;save();render();return}
+  if(d.zon){const [a,b]=d.zon.split(':');obCfg(S.zones.find(x=>x.id===a),b).on=t.checked;save();render();return}
+  if(d.zmk){const y=window.scrollY;renderMain();window.scrollTo(0,y);return}
+  if(d.rule&&t.tagName==='SELECT'){findRule(d.rule)[d.k]=t.value;save();render();return}
+  if(d.ov&&t.tagName==='SELECT'){findOv(d.ov)[d.k]=t.value;save();render();return}
+  if(d.rr){S.data[d.f]=t.value;delete S.nc[d.f];save();render();return}
+  if(d.rs&&t.tagName==='SELECT'){const r=S.comp.restrictions.find(x=>x.id===d.rs);r[d.k]=t.value;save();render();return}
+  if(t.id==='rtfile'&&t.files[0]){runRT(t.files[0].name);return}
+  if(d.doc&&t.files[0]){
+    const k=d.doc,f=t.files[0];S.docs[k]=f.name;S.extract={state:'idle',msg:'Reading '+f.name+'…'};render();
+    try{DOCTEXT[k]=await readFile(f);S.extract={state:'idle',msg:DOCTEXT[k].trim()?'':'No text found in '+f.name+'. If it’s a scan, enter the fees below.'}}
+    catch(err){DOCTEXT[k]='';S.extract={state:'error',msg:'Couldn’t read '+f.name+'. Try a PDF, Excel or CSV file, or enter the fees below.'}}
+    save();render();
+    if(DOCTEXT[k].trim()&&sample)extract();
+  }
+});
+render();
+</script>
+</body>
+</html>
