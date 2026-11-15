@@ -2,7 +2,8 @@
 // Operations receiving it triggers the Ops onboarding bot; intake-prefill.json fills the TAM/CSM intake form.
 import nodemailer from "nodemailer";
 
-const FROM = process.env.ONBOARDING_FROM || "OpenBorder Onboarding Bot <ops-onboarding-bot@openborder.com>";
+// The sender is the account in BOT_SMTP_USER, so no address is hard-coded here.
+const FROM = () => process.env.ONBOARDING_FROM || `OpenBorder Onboarding Bot <${process.env.BOT_SMTP_USER}>`;
 const TO = process.env.ONBOARDING_TO || "operations@openborder.com";
 const MAX_BYTES = 750_000;
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -49,7 +50,7 @@ export default async (req) => {
 
   try {
     await transport.sendMail({
-      from: FROM,
+      from: FROM(),
       to: TO,
       ...(replyTo ? { replyTo } : {}),
       subject: subject.slice(0, 250),
