@@ -1,6 +1,6 @@
 # OpenBorder Merchant Onboarding (Netlify)
 
-Merchants on the onboarding roster fill in their details. When they click **Submit to OpenBorder**, a Netlify Function emails the submission to operations@openborder.com **from ops-onboarding-bot@openborder.com**. That email triggers the Ops onboarding bot.
+Merchants on the onboarding roster fill in their details. When they click **Submit to OpenBorder**, a Netlify Function emails the submission to operations@openborder.com **from the onboarding bot account**. That email triggers the Ops onboarding bot.
 
 The email includes a readable summary plus two attachments:
 - `onboarding.json`: the full submission (markets, routing, shipping zones, contacts, bot tasks)
@@ -20,16 +20,16 @@ Same as the intake form site, as a separate Netlify project (this one stays publ
    |---|---|
    | `BOT_SMTP_USER` | Same sending account as the intake site |
    | `BOT_SMTP_PASSWORD` | Same App Password (mark as secret) |
-   | `ONBOARDING_ACCESS_CODE` | Optional but recommended. Any code, e.g. `ob-2026-onboard` |
+   | `ONBOARDING_ACCESS_CODE` | Optional but recommended. Any code, e.g. a random word and number |
    | `ONBOARDING_TO` | Optional. Defaults to `operations@openborder.com` |
 
 4. **Deploys** > **Trigger deploy** > **Deploy site**.
 
 ## Sharing with merchants
 
-- If you set `ONBOARDING_ACCESS_CODE`, send merchants the link with the code: `https://YOUR-SITE.netlify.app/?code=ob-2026-onboard`. Submissions without the right code are rejected, which keeps spam out.
+- If you set `ONBOARDING_ACCESS_CODE`, send merchants the link with the code: `https://YOUR-SITE.netlify.app/?code=YOUR-CODE`. Submissions without the right code are rejected, which keeps spam out.
 - Don't turn on Netlify password protection for this site; merchants need to open it.
 
 ## Test
 
-Open the link with the code, fill the form with test data, submit, and check operations@ for "Merchant onboarding: [company]" from ops-onboarding-bot@. Errors show in Netlify > Logs > Functions > submit-onboarding.
+Open the link with the code, fill the form with test data, submit, and check operations@ for "Merchant onboarding: [company]" from the bot account. Errors show in Netlify > Logs > Functions > submit-onboarding.
