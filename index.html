@@ -428,6 +428,10 @@ const F={
  ],
  markets:[
   {id:'live_intl',l:'Do you already sell internationally?',type:'seg',o:YN,req:1,full:1},
+  {id:'current_provider',l:'Who handles your international orders today?',type:'select',o:['Passport','Global-e','Zonos','Shopify Managed Markets','ESW','Easyship','DHL or another carrier directly','Other'],req:1,if:d=>d.live_intl==='Yes'},
+  {id:'current_provider_other',l:'Which provider?',req:1,if:d=>d.live_intl==='Yes'&&d.current_provider==='Other'},
+  {id:'switch_deadline',l:'Do you have a hard date to move off them?',type:'date',if:d=>d.live_intl==='Yes',hint:'For example, when your contract ends or the service shuts off. Leave blank if there’s no fixed date.'},
+  {id:'switch_reason',l:'What’s driving that date?',if:d=>d.live_intl==='Yes'&&!!d.switch_deadline,ph:'e.g. ShipStation is removing Passport'},
  ],
  shipping:[],
  compliance:[],
@@ -999,7 +1003,9 @@ function intakePrefill(){
     erp:d.erp==='Other'?d.erp_other:d.erp,subscription_provider:d.subscription_provider==='Other'?d.subscription_other:d.subscription_provider,subscriptions_intl:d.subscriptions_intl,
     daily_volume:d.daily_volume,duns:d.duns,tsa_status:d.tsa_verified?(d.tsa_verified==='Yes'?'Verified (merchant said)':d.tsa_verified==='No'?'Not verified (merchant said)':'Merchant not sure'):'',live_intl:d.live_intl,checkout_costs:cc,
     major_markets:[S.markets.length?'Launch with OpenBorder: '+S.markets.map(c=>CNAME[c]).join(', '):'',S.existing.length?'Sells today: '+S.existing.join(', '):'',d.test_market?'Test order first in '+CNAME[d.test_market]:''].filter(Boolean).join('. '),
-    product_category:d.product_category,known_restrictions:d.known_restrictions,shipping_notes:d.checkout_notes,billing_contact:d.billing_email};
+    product_category:d.product_category,known_restrictions:d.known_restrictions,
+    competitors:d.live_intl==='Yes'&&d.current_provider?'Current provider: '+(d.current_provider==='Other'?d.current_provider_other||'Other':d.current_provider)+(d.switch_deadline?'. Must move off by '+d.switch_deadline+(d.switch_reason?' ('+d.switch_reason+')':''):''):'',
+    go_live_date:d.switch_deadline||'',shipping_notes:d.checkout_notes,billing_contact:d.billing_email};
   Object.keys(o).forEach(k=>{if(o[k]==null||o[k]==='')delete o[k]});
   return o;
 }
@@ -1008,7 +1014,7 @@ P.review=()=>{
   let h=missing.length?`<div class="note warn"><span class="ic">⚠️</span><div><b>Still to finish:</b> ${missing.map(esc).join(', ')}.</div></div>`:'';
   const rows=[['Company',d.company_name],['Products',d.product_category],['Store',isShopify()?d.shopify_store:d.channel==='BigCommerce'?'BigCommerce: '+(d.bc_store||''):isAPI()?'Custom site or API':''],['Team',S.contacts.filter(c=>c.name).map(c=>`${c.name} (${c.role||'no role'})`).join(', ')],
    ['Ships from',[primaryName(),d.fc_city,d.fc_country].filter(Boolean).join(', ')],['Labels',d.label_flow],
-   ['Sell today in',S.existing.join(', ')||(d.live_intl==='No'?'Not selling internationally yet':'')],['Launch with OpenBorder',S.markets.map(c=>CNAME[c]).join(', ')],['Test first in',d.test_market?CNAME[d.test_market]:''],
+   ['Sell today in',S.existing.join(', ')||(d.live_intl==='No'?'Not selling internationally yet':'')],['Current provider',d.live_intl==='Yes'?(d.current_provider==='Other'?d.current_provider_other:d.current_provider):''],['Must switch by',d.switch_deadline?(d.switch_deadline+(d.switch_reason?' ('+d.switch_reason+')':'')):''],['Launch with OpenBorder',S.markets.map(c=>CNAME[c]).join(', ')],['Test first in',d.test_market?CNAME[d.test_market]:''],
    ['Customers pay',d.customer_pays],['Shipping options',(S.z2||[]).map(z=>z.name).filter(Boolean).join(', ')],['Invoices to',d.billing_email]];
   h+=`<div class="review"><dl>${rows.map(([k,v])=>`<dt>${k}</dt><dd>${v?esc(v):'<span class="missing">Not provided</span>'}</dd>`).join('')}</dl></div>`;
   if((S.subm||{}).state==='error')h=`<div class="note warn"><span class="ic">⚠️</span><div>${esc(S.subm.msg)}</div></div>`+h;
